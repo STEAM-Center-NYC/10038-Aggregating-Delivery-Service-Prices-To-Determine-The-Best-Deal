@@ -1,16 +1,20 @@
 from flask import Flask, render_template, request, redirect, g
 import pymysql
 import pymysql.cursors
-from sf import user, pw
+from dynaconf import Dynaconf
 
 app = Flask(__name__)
+
+settings = Dynaconf(
+    settings_file=("settings.toml")
+)
 
 def connect_db():
     return pymysql.connect(
         host="10.100.33.60",
-        user=f"{user}",
-        password=f"{pw}",
-        database="frugal_foods",
+        user=settings.db_user,
+        password=settings.db_pass,
+        database=settings.db_name,
         cursorclass=pymysql.cursors.DictCursor,
         autocommit=True
     )
