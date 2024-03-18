@@ -5,14 +5,16 @@ from dynaconf import Dynaconf
 
 app = Flask(__name__)
 
-settings = Dynaconf
+settings = Dynaconf(
+    settings_file = ('settings.toml')
+)
 
 def connect_db():
     return pymysql.connect(
         host="10.100.33.60",
         user= settings.db_user,
-        password = settings.db_password,
-        database="frugal_foods",
+        password = settings.db_pass,
+        database=settings.db_name,
         cursorclass=pymysql.cursors.DictCursor,
         autocommit=True
     )
