@@ -16,20 +16,21 @@
 // Index Page
 // Sample Code for list/map
 //define button and form//
-const popUpForm = document.getElementById("posts_maker");
-var button = document.getElementById("post_button");
-var button2 = document.getElementById('pclose_button');
+const popUpForm = document.getElementById("contents_list");
+var list = document.getElementById("contents_listB");
+var map = document.getElementById('contents_mapB');
 //Form Pop-Up//
 //button.onclick = () => {window.open('hello!')};//
 
 //button function//
-button.addEventListener("click", function() {
-  document.getElementById("posts_maker").style.display = "block";
- 
+list.addEventListener("click", function() {
+  document.getElementById("contents_list").style.display = "block";
+  document.getElementById('contents_map').style.display = 'none';
 });
 
-button2.addEventListener('click', function() {
-  document.getElementById('posts_maker').style.display = 'none';
+map.addEventListener('click', function() {
+  document.getElementById('contents_map').style.display = 'block';
+  document.getElementById('contents_list').style.display = 'none';
 });
 
 // Templates Page
