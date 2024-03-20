@@ -17,6 +17,7 @@
 // Sample Code for list/map
 //define button and form//
 const popUpForm = document.getElementById("contents_list");
+const popUpFrom2 = document.getElementById('contents_map');
 var list = document.getElementById("contents_listB");
 var map = document.getElementById('contents_mapB');
 //Form Pop-Up//
