@@ -18,3 +18,27 @@
 body{
     font-family: "Nunito", sans-serif;
 }
+
+/* Index Page */
+#contents_list {
+    display: block;
+}
+
+.con {
+    display: flex;
+    justify-content: space-between; /* This will separate the items to the left and right */
+    text-align: center;
+  }
+  
+.left-item, .right-item {
+    width: 35%; /* Adjust the width as needed */
+}
+
+.left-item {
+    background-color: pink;
+}
+
+
+.right-item {
+    background-color: green;
+}
