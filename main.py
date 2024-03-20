@@ -1,19 +1,19 @@
 from flask import Flask, render_template, request, redirect, g
 import pymysql
 import pymysql.cursors
-from dynaconf import Dynaconf
+from dynaconf import Dynaconf 
 
 app = Flask(__name__)
 
 settings = Dynaconf(
-    settings_file=("settings.toml")
+    settings_file = ('settings.toml')
 )
 
 def connect_db():
     return pymysql.connect(
         host="10.100.33.60",
-        user=settings.db_user,
-        password=settings.db_pass,
+        user= settings.db_user,
+        password = settings.db_pass,
         database=settings.db_name,
         cursorclass=pymysql.cursors.DictCursor,
         autocommit=True
@@ -31,6 +31,10 @@ def close_db(error):
     if hasattr(g, 'db'):
         g.db.close() 
 
-@app.route('/')
+@app.route('/home')
 def index ():
     return render_template('index.jinja')
+
+@app.route('/')
+def landing ():
+    return render_template ('landing.jinja')

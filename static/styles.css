@@ -1,0 +1,20 @@
+/* !! ANYONE WHO WORKS ON THIS ORGINIZE YOUR WORK AS SHOWN BELOW !! */
+
+/* Index Page */
+/* body {
+    color: black;
+    border-radius: 8px;
+} */
+
+/* Index Page */
+/* body {
+    color: black;
+    border-radius: 8px;
+} */
+
+/* General CSS */
+@import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap');
+
+body{
+    font-family: "Nunito", sans-serif;
+}

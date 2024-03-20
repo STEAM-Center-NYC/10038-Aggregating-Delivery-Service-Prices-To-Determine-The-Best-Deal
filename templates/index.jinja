@@ -2,9 +2,20 @@
 {% block contents  %}
 <main class="container">
     <br>
-    <h1 class="text-center">
-        Welcome To Frugal Foods!
-    </h1>
-    <br>
+    <hr>
+    <div class="px-4 py-5 my-5 text-center" style="background-image: url(/static/pictures/frugalf_logo.png);">
+    {# This is a test picture change it when you get a good one #}
+        <h1 class="display-5 fw-bold text-body-emphasis">Frugal Foods</h1>
+        <br>
+        <div class="col-lg-6 mx-auto">
+            <p class="lead mb-4">Add text here</p>
+        </div>
+    </div>
+    <hr>
+    <div class="b-example-divider"></div>
+    <div class="text-center">
+        <button id="contents_list">List</button> &nbsp;|&nbsp;
+        <button id="contents_map">Map</button>
+    </div>
 </main>
 {% endblock  %}
