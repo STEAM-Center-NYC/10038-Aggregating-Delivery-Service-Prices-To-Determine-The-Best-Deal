@@ -1,0 +1,36 @@
+{% extends "templates.jinja" %}
+{% block contents  %}
+<main class="container">
+    <br>
+    <hr>
+    <div class="px-4 py-5 my-5 text-center" style="background-image: url(/static/pictures/frugalf_logo.png);">
+    {# This is a test picture change it when you get a good one #}
+        <h1 class="display-5 fw-bold text-body-emphasis">Frugal Foods</h1>
+        <br>
+        <div class="col-lg-6 mx-auto">
+            <p class="lead mb-4">Add text here</p>
+        </div>
+    </div>
+    <hr>
+    <div class="b-example-divider"></div>
+    <div class="text-center">
+        <button id="contents_listB">List</button> &nbsp;|&nbsp;
+        <button id="contents_mapB">Map</button>
+    </div>
+    <hr>
+    <div class="con" id="contents_list">
+        <div class="left-item list-center">
+            <h2>Name Template</h2>
+            <br>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque posuere sapien sed augue pretium posuere. Mauris nec purus auctor, ullamcorper sapien ut, tincidunt dolor. </p>
+            <br>
+            <h6>Star Rating = 4.0&nbsp;&nbsp; Delivery Fee = 1.00</h6>
+        </div>
+            <div class="right-item list-center">Right Item</div>
+    </div>
+    <div id="contents_map">
+        alksdjf;alskdjf
+    </div>
+  
+    
+    {% endblock  %}
