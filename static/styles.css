@@ -21,7 +21,11 @@ body{
 
 /* Index Page */
 #contents_list {
-    display: block;
+    display: flex;
+}
+
+#contents_map{
+    display: none;
 }
 
 .con {
