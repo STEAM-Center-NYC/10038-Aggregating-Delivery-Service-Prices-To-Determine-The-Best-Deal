@@ -25,7 +25,7 @@ var map = document.getElementById('contents_mapB');
 
 //button function//
 list.addEventListener("click", function() {
-  document.getElementById("contents_list").style.display = "block";
+  document.getElementById("contents_list").style.display = "flex";
   document.getElementById('contents_map').style.display = 'none';
 });
 
