@@ -78,7 +78,7 @@ def restaurant_list():
 
     results = cursor.fetchall()
     cursor.close()
-    return render_template("index.html.jinja", posts = results)
+    return render_template("index.jinja", restaurants = results)
 
 @app.route('/')
 def landing ():
