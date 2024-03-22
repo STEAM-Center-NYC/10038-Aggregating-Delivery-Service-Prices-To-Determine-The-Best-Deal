@@ -82,3 +82,7 @@ def restaurant_list():
 @app.route('/')
 def landing ():
     return render_template ('landing.jinja')
+
+@app.route('/restaurant')
+def restaurant():
+    return render_template('restaurant.jinja')
