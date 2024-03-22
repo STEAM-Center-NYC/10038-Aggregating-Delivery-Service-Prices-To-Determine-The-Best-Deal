@@ -81,5 +81,5 @@ def restaurant(restaurant_id):
     cursor.execute(f"SELECT * FROM `restaurant` WHERE `restaurant_id` = {restaurant_id}")
     restaurant_results = cursor.fetchone()
     cursor.execute("SELECT * FROM `items` INNER JOIN `price` ON `items`.item_id = `price`.item_id")
-    itemprice_results = cursor.fetchall()
+    itemprice_results = cursor.fetchone()
     return render_template("restaurant.jinja", restaurant_data = restaurant_results, itemprice = itemprice_results)
