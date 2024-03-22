@@ -21,7 +21,9 @@
     <div id="contents_list" class="grid">
         {% for results in restaurants %}
         <div class="grid_items" style="background-color: pink;">
-            <img src={{results.image}} id="picture">
+            <a href="/restaurant/{{results.restaurant_id}}">
+                <img src={{results.image}} id="picture">
+            </a>
             <h3>
                 {{results.restaurant_name}}
             </h3>
