@@ -62,15 +62,6 @@ def load_user(user_id):
     
     return User(result["ID"], result["Username"], result["Email"])
 
-# @app.route('/home', methods=['GET', 'POST'])
-# def restaurant_list():
-#     cursor = get_db().cursor()
-#     cursor.execute("""
-#                    SELECT * FROM `restaurant` 
-#                    INNER JOIN `items` ON `restaurant`.restaurant_id = `items`.restaurant_id 
-#                    INNER JOIN `price` ON `items`.item_id = `price`.item_id
-#     """)
-
 @app.route('/home', methods=['GET', 'POST'])
 def restaurant_list():
     cursor = get_db().cursor()
@@ -83,6 +74,12 @@ def restaurant_list():
 def landing ():
     return render_template ('landing.jinja')
 
-@app.route('/restaurant')
-def restaurant():
-    return render_template('restaurant.jinja')
+
+@app.route('/restaurant/<restaurant_id>', methods=['GET', 'POST'])
+def restaurant(restaurant_id):
+    cursor = get_db().cursor()
+    cursor.execute(f"SELECT * FROM `restaurant` WHERE `restaurant_id` = {restaurant_id}")
+    restaurant_results = cursor.fetchone()
+    cursor.execute("SELECT * FROM `items` INNER JOIN `price` ON `items`.item_id = `price`.item_id")
+    itemprice_results = cursor.fetchall()
+    return render_template("restaurant.jinja", restaurant_data = restaurant_results, itemprice = itemprice_results)
