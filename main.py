@@ -75,7 +75,6 @@ def load_user(user_id):
 def restaurant_list():
     cursor = get_db().cursor()
     cursor.execute("SELECT * FROM `restaurant`")
-
     results = cursor.fetchall()
     cursor.close()
     return render_template("index.jinja", restaurants = results)
