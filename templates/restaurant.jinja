@@ -1,6 +1,17 @@
 {% extends 'templates.jinja' %}
 {% block contents %}
 <main>
-    <p>{{restaurant_data.restaurant_name}}</p>
+    <h3>
+        {{restaurant_data.restaurant_name}}
+    </h3>
+    <div class="grid">
+        {% for results in restaurant_data %}
+        <div class="grid_items" style="background-color: pink;">
+            <p>{{itemprice.item_name}}</p>
+            <p>{{itemprice.item_description}}</p>
+            <p>{{itemprice.price_value}}</p>
+        </div>
+        {% endfor %}
+    </div>
 </main>
 {% endblock %}
