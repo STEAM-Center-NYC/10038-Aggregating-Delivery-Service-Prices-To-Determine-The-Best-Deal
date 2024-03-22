@@ -21,28 +21,19 @@ body{
 
 /* Index Page */
 #contents_list {
-    display: flex;
+    display: grid;
 }
 
-#contents_map{
+#contents_map {
     display: none;
 }
 
-.con {
-    display: flex;
-    justify-content: space-between; /* This will separate the items to the left and right */
+.grid {
+    display: grid;
+    grid-template-columns: 50% 50%;
+    gap: 250px 100px;
+}
+
+.grid_items {
     text-align: center;
-  }
-  
-.left-item, .right-item {
-    width: 35%; /* Adjust the width as needed */
-}
-
-.left-item {
-    background-color: pink;
-}
-
-
-.right-item {
-    background-color: green;
 }
