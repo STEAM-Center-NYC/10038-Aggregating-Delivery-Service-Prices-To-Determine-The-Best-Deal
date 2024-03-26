@@ -1,6 +1,17 @@
 {% extends 'templates.jinja' %}
 {% block contents %}
 <main>
-    <p>{{restaurant_data.restaurant_name}}</p>
+    <h3>
+        {{restaurant_data.restaurant_name}}
+    </h3>
+    <div class="grid">
+        {% for name, prices in itemprice | groupby('item_name')%}
+        <div class="grid_items" style="background-color: pink;">
+            <p>{{name}}</p>
+            <p>{{prices[0].item_description}}</p>
+        {% for price in prices %}<p>{{price.price_value}}</p>{% endfor %}
+        </div>
+        {% endfor %}
+    </div>
 </main>
 {% endblock %}
