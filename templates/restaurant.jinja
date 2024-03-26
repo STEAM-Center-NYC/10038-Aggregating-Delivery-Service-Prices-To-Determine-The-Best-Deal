@@ -5,11 +5,11 @@
         {{restaurant_data.restaurant_name}}
     </h3>
     <div class="grid">
-        {% for results in restaurant_data %}
+        {% for name, prices in itemprice | groupby('item_name')%}
         <div class="grid_items" style="background-color: pink;">
-            <p>{{itemprice.item_name}}</p>
-            <p>{{itemprice.item_description}}</p>
-            <p>{{itemprice.price_value}}</p>
+            <p>{{name}}</p>
+            <p>{{prices[0].item_description}}</p>
+        {% for price in prices %}<p>{{price.price_value}}</p>{% endfor %}
         </div>
         {% endfor %}
     </div>
