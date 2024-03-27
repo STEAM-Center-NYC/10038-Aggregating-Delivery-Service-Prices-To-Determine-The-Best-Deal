@@ -87,3 +87,7 @@ def restaurant(restaurant_id):
 @app.route('/login')
 def login():
     return render_template('login.jinja')
+
+@app.route('/aboutus')
+def about():
+    return render_template('aboutus.jinja')
