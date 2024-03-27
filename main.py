@@ -6,7 +6,6 @@ from dynaconf import Dynaconf
 
 app = Flask(__name__)
 app.secret_key = "UR7XLL009"
-
 login_manager = flask_login.LoginManager()
 login_manager.init_app(app)
 
@@ -52,7 +51,7 @@ def close_db(error):
 @login_manager.user_loader
 def load_user(user_id):
     cursor = get_db().cursor()
-    cursor.execute(f"SELECT * FROM `User` WHERE `id` = {user_id}")
+    cursor.execute(f"SELECT * FROM `users` WHERE `id` = {user_id}")
     result = cursor.fetchone()
     cursor.close()
     get_db().commit()
@@ -60,7 +59,7 @@ def load_user(user_id):
     if result is None:
         return None
     
-    return User(result["ID"], result["Username"], result["Email"])
+    return User(result["id"], result["username"], result["email"])
 
 @app.route('/home', methods=['GET', 'POST'])
 def restaurant_list():
@@ -68,6 +67,7 @@ def restaurant_list():
     cursor.execute("SELECT * FROM `restaurant`")
     results = cursor.fetchall()
     cursor.close()
+    # user_login = flask_login.current_user.username
     return render_template("index.jinja", restaurants = results)
 
 @app.route('/')
@@ -84,6 +84,33 @@ def restaurant(restaurant_id):
     itemprice_results = cursor.fetchall()
     return render_template("restaurant.jinja", restaurant_data = restaurant_results, itemprice = itemprice_results)
 
-@app.route('/login')
+@app.route('/signup', methods=['GET', 'POST'])
+def signup():
+    if request.method == 'POST':
+        new_username = request.form['new_username']
+        new_password = request.form['new_password']
+        new_email = request.form['new_email']
+        cursor = get_db().cursor()
+        cursor.execute(f'INSERT INTO `users` (`username`, `password`, `email`) VALUES ("{new_username}", "{new_password}", "{new_email}");')
+        cursor.close()
+        get_db().commit()
+    return render_template('signup.jinja')
+
+@app.route('/login', methods=['GET', 'POST'])
 def login():
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+        cursor = get_db().cursor()
+        cursor.execute(f'SELECT * FROM `users` WHERE `username` = "{username}"')
+        result = cursor.fetchone()
+        if password == result['password']:
+            user = load_user(result['id'])
+            flask_login.login_user(user)
+            return redirect('/home')
     return render_template('login.jinja')
+
+@app.route('/logout')
+def logout():
+    flask_login.logout_user()
+    return redirect('/')
