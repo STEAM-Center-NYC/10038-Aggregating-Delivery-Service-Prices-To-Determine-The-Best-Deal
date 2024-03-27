@@ -83,3 +83,7 @@ def restaurant(restaurant_id):
     cursor.execute(f"SELECT * FROM `items` INNER JOIN `price` ON `items`.item_id = `price`.item_id WHERE `restaurant_id` = {restaurant_id}")
     itemprice_results = cursor.fetchall()
     return render_template("restaurant.jinja", restaurant_data = restaurant_results, itemprice = itemprice_results)
+
+@app.route('/login')
+def login():
+    return render_template('login.jinja')
