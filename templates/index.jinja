@@ -16,6 +16,9 @@
     <div class="text-center">
         <button id="contents_listB">List</button> &nbsp;|&nbsp;
         <button id="contents_mapB">Map</button>
+        {% if current_user.is_authenticated %}
+            Hi {{ current_user.username }}!
+        {% endif %}
     </div>
     <hr>
     <div id="contents_list" class="grid">

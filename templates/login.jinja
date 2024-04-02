@@ -1,0 +1,18 @@
+{% extends 'templates.jinja' %}
+{% block contents %}
+
+<main class="container">
+    <br>
+    <div class="log_intro">
+        Login
+    </div>
+    <div class="log_box">
+        <form method="POST">
+            <input type="text" name="username" placeholder="Username">
+            <input type="password" name="password" placeholder="Password">
+            <input type="submit">
+        </form>
+    </div>
+</main>
+
+{% endblock %}

@@ -37,3 +37,19 @@ body{
 .grid_items {
     text-align: center;
 }
+
+/* Sign In // Sign Up */
+
+.log_intro {
+    background-color: blue;
+    width: 600px;
+    margin: auto;
+    padding: 20px;
+}
+
+.log_box {
+    background-color: pink;
+    width: 600px;
+    margin: auto;
+    padding: 20px;
+}
