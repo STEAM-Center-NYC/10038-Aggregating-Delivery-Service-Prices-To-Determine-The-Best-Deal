@@ -94,6 +94,7 @@ def signup():
         cursor.execute(f'INSERT INTO `users` (`username`, `password`, `email`) VALUES ("{new_username}", "{new_password}", "{new_email}");')
         cursor.close()
         get_db().commit()
+        return redirect('/login')
     return render_template('signup.jinja')
 
 @app.route('/login', methods=['GET', 'POST'])
