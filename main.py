@@ -3,9 +3,18 @@ import pymysql
 import pymysql.cursors
 import flask_login
 from dynaconf import Dynaconf 
+from argon2 import PasswordHasher
+
+
+
+
+
+settings = Dynaconf(
+    settings_file = ('settings.toml')
+)
 
 app = Flask(__name__)
-app.secret_key = "UR7XLL009"
+app.secret_key = settings.app_key
 login_manager = flask_login.LoginManager()
 login_manager.init_app(app)
 
@@ -22,13 +31,9 @@ class User:
     def get_id(self):
         return str(self.id)
 
-settings = Dynaconf(
-    settings_file = ('settings.toml')
-)
-
 def connect_db():
     return pymysql.connect(
-        host="10.100.33.60",
+        host="127.0.0.1",
         user= settings.db_user,
         password = str(settings.db_pass),
         database=settings.db_name,
@@ -83,6 +88,8 @@ def restaurant(restaurant_id):
     cursor.execute(f"SELECT * FROM `items` INNER JOIN `price` ON `items`.item_id = `price`.item_id WHERE `restaurant_id` = {restaurant_id}")
     itemprice_results = cursor.fetchall()
     return render_template("restaurant.jinja", restaurant_data = restaurant_results, itemprice = itemprice_results)
+
+
 
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():

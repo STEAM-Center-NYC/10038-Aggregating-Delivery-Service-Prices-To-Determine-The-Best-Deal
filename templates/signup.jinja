@@ -1,19 +1,45 @@
 {% extends 'templates.jinja' %}
 {% block contents %}
 
+
+
 <main class="container">
     <br>
     <div class="log_intro">
         adsfaf
     </div>
     <div class="log_box">
-        <form method="POST">
+        <form onsubmit="return validpass()" method="POST">
             <input type="text" name="new_username" placeholder="Username">
             <input type="email" name="new_email" placeholder="Email">
-            <input type="password" name="new_password" placeholder="Password">
+            <input type="password" id='new_password' name="new_password" placeholder="Password" required>
             <input type="submit">
         </form>
     </div>
 </main>
+
+<script>
+function checkpass(new_password) {
+    //character checker
+    var specialChar = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/;
+
+    //if statement to test password
+    if (specialChar.test('new_password')) {
+        return false;
+    } else{ 
+        return true; 
+    }
+}
+
+function validPass() {
+    var new_password = document.getElementById('new_password').value;
+
+    if (!validPass(new_password)) {
+        alert("Password can't contain special characters");
+    }
+    //continues form if passwords valid
+    return true
+}
+</script>
 
 {% endblock %}
