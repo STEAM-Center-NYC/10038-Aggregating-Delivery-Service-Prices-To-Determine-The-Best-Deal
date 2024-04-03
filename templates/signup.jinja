@@ -1,19 +1,47 @@
 {% extends 'templates.jinja' %}
 {% block contents %}
 
+<script>
+//check for special characters
+function checkpass(new_password) {
+    //character checker
+    var specialCharRegex = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/;
+
+    //if statement to test password
+    if (specialCharRegex.test(new_password)) {
+        return false;
+    } else{ 
+        return true; 
+    }
+}
+//stops signup if pasword is invalid
+function validPass() {
+    var new_password = document.getElementById("new_password").value;
+
+    if (!checkpass(new_password)) {
+        alert("Password can't contain special characters");
+        return false;
+    } 
+    //continues form if passwords valid
+    return true;
+}
+</script>
+
 <main class="container">
     <br>
     <div class="log_intro">
         adsfaf
     </div>
     <div class="log_box">
-        <form method="POST">
+        <form onsubmit="return validPass()" method="post">
             <input type="text" name="new_username" placeholder="Username">
             <input type="email" name="new_email" placeholder="Email">
-            <input type="password" name="new_password" placeholder="Password">
+            <input type="password" id='new_password' name="new_password" placeholder="Password" required>
             <input type="submit">
         </form>
     </div>
 </main>
+
+
 
 {% endblock %}
