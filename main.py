@@ -6,9 +6,6 @@ from dynaconf import Dynaconf
 from argon2 import PasswordHasher
 
 
-
-
-
 settings = Dynaconf(
     settings_file = ('settings.toml')
 )
@@ -89,7 +86,7 @@ def restaurant(restaurant_id):
     itemprice_results = cursor.fetchall()
     return render_template("restaurant.jinja", restaurant_data = restaurant_results, itemprice = itemprice_results)
 
-
+ph = PasswordHasher()
 
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
@@ -97,12 +94,18 @@ def signup():
         new_username = request.form['new_username']
         new_password = request.form['new_password']
         new_email = request.form['new_email']
-        cursor = get_db().cursor()
-        cursor.execute(f'INSERT INTO `users` (`username`, `password`, `email`) VALUES ("{new_username}", "{new_password}", "{new_email}");')
+        hashed_password = ph.hash(new_password)
+        conn = connect_db()  # Call the connect_db function here
+        cursor = conn.cursor()
+        cursor.execute(f'INSERT INTO `users` (`username`, `password`, `email`) VALUES (%s, %s, %s)',
+        (new_username, hashed_password, new_email))
         cursor.close()
+        conn.close()
         get_db().commit()
         return redirect('/login')
     return render_template('signup.jinja')
+
+
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -110,8 +113,9 @@ def login():
         username = request.form['username']
         password = request.form['password']
         cursor = get_db().cursor()
-        cursor.execute(f'SELECT * FROM `users` WHERE `username` = "{username}"')
+        cursor.execute(f'SELECT * FROM `users` WHERE username=%s', (username,))
         result = cursor.fetchone()
+        cursor.close()
         if password == result['password']:
             user = load_user(result['id'])
             flask_login.login_user(user)
