@@ -116,10 +116,17 @@ def login():
         cursor.execute(f'SELECT * FROM `users` WHERE username=%s', (username,))
         result = cursor.fetchone()
         cursor.close()
-        if password == result['password']:
-            user = load_user(result['id'])
-            flask_login.login_user(user)
-            return redirect('/home')
+        try:
+            if result and ph.verify(result['password'], password):
+                user = load_user(result['id'])
+                flask_login.login_user(user)
+                return redirect('/home')
+        except:
+            pass
+        # if password == result['password']:
+        #     user = load_user(result['id'])
+        #     flask_login.login_user(user)
+        #     return redirect('/home')
     return render_template('login.jinja')
 
 @app.route('/logout')
