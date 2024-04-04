@@ -21,35 +21,35 @@ body{
 
 /* Index Page */
 #contents_list {
-    display: grid;
+    display: flex;
 }
 
-#contents_map {
+#contents_map{
     display: none;
 }
-
-.grid {
-    display: grid;
-    grid-template-columns: 50% 45%;
-    gap: 20px 20px;
-}
-
-.grid_items {
+.center {
     text-align: center;
 }
 
-/* Sign In // Sign Up */
-
-.log_intro {
-    background-color: blue;
-    width: 600px;
-    margin: auto;
-    padding: 20px;
+.con {
+    display: flex;
+    justify-content: space-between; /* This will separate the items to the left and right */
+    text-align: center;
+  }
+  
+.left-item, .right-item {
+    width: 35%; /* Adjust the width as needed */
 }
 
-.log_box {
+.left-item {
     background-color: pink;
-    width: 600px;
-    margin: auto;
-    padding: 20px;
+}
+
+
+.right-item {
+    background-color: green;
+}
+
+.button-class {
+ 
 }
