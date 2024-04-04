@@ -95,10 +95,12 @@ def signup():
         new_password = request.form['new_password']
         new_email = request.form['new_email']
         hashed_password = ph.hash(new_password)
+        hashed_email = ph.hash(new_email)
+        hashed_username = ph.hash(new_username)
         conn = connect_db()  # Call the connect_db function here
         cursor = conn.cursor()
         cursor.execute(f'INSERT INTO `users` (`username`, `password`, `email`) VALUES (%s, %s, %s)',
-        (new_username, hashed_password, new_email))
+        (hashed_username, hashed_password, hashed_email))
         cursor.close()
         conn.close()
         get_db().commit()
@@ -117,10 +119,12 @@ def login():
         result = cursor.fetchone()
         cursor.close()
         try:
+            
             if result and ph.verify(result['password'], password):
                 user = load_user(result['id'])
                 flask_login.login_user(user)
                 return redirect('/home')
+            
         except:
             pass
         # if password == result['password']:
