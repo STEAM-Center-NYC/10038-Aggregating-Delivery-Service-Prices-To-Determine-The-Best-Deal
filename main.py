@@ -107,8 +107,6 @@ def signup():
         return redirect('/login')
     return render_template('signup.jinja')
 
-
-
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
@@ -118,20 +116,28 @@ def login():
         cursor.execute(f'SELECT * FROM `users` WHERE username=%s', (username,))
         result = cursor.fetchone()
         cursor.close()
-        try:
+
+        stored_username_hash = result['username']
+        stored_password_hash = result['password']
+        if stored_username_hash and stored_password_hash:
             
-            if result and ph.verify(result['password'], password):
+            try:
+
+                if ph.verify(stored_username_hash, username) and ph.verify(stored_password_hash, password):
+                    user = load_user(result['id'])
+                    flask_login.login_user(user)
+                    return redirect('/home')
+                else:
+                    # Incorrect username or password
+                    return render_template('login.html', error='Invalid username or password')
+            
+            except:
+                pass
+            if password == result['password']:
                 user = load_user(result['id'])
                 flask_login.login_user(user)
                 return redirect('/home')
-            
-        except:
-            pass
-        # if password == result['password']:
-        #     user = load_user(result['id'])
-        #     flask_login.login_user(user)
-        #     return redirect('/home')
-    return render_template('login.jinja')
+        return render_template('login.jinja')
 
 @app.route('/logout')
 def logout():
