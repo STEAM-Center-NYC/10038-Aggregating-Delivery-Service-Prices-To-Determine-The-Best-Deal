@@ -95,17 +95,17 @@ def signup():
         new_password = request.form['new_password']
         new_email = request.form['new_email']
         hashed_password = ph.hash(new_password)
+        hashed_email = ph.hash(new_email)
+        hashed_username = ph.hash(new_username)
         conn = connect_db()  # Call the connect_db function here
         cursor = conn.cursor()
         cursor.execute(f'INSERT INTO `users` (`username`, `password`, `email`) VALUES (%s, %s, %s)',
-        (new_username, hashed_password, new_email))
+        (hashed_username, hashed_password, hashed_email))
         cursor.close()
         conn.close()
         get_db().commit()
         return redirect('/login')
     return render_template('signup.jinja')
-
-
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -116,17 +116,22 @@ def login():
         cursor.execute(f'SELECT * FROM `users` WHERE username=%s', (username,))
         result = cursor.fetchone()
         cursor.close()
+
         try:
-            if result and ph.verify(result['password'], password):
+            if result and ph.verify(result['password'],password ):
                 user = load_user(result['id'])
                 flask_login.login_user(user)
                 return redirect('/home')
+            else:
+                # Incorrect username or password
+                return render_template('login.html', error='Invalid username or password')
         except:
             pass
-        # if password == result['password']:
-        #     user = load_user(result['id'])
-        #     flask_login.login_user(user)
-        #     return redirect('/home')
+        # This part only works if no encryption is used. KEEP COMMENTED
+        #    if password == result['password']:
+        #         user = load_user(result['id'])
+        #         flask_login.login_user(user)
+        #         return redirect('/home')
     return render_template('login.jinja')
 
 @app.route('/logout')
