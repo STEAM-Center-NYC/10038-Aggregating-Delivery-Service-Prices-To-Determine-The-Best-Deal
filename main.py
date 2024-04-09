@@ -117,27 +117,22 @@ def login():
         result = cursor.fetchone()
         cursor.close()
 
-        stored_username_hash = result['username']
-        stored_password_hash = result['password']
-        if stored_username_hash and stored_password_hash:
-            
-            try:
-
-                if ph.verify(stored_username_hash, username) and ph.verify(stored_password_hash, password):
-                    user = load_user(result['id'])
-                    flask_login.login_user(user)
-                    return redirect('/home')
-                else:
-                    # Incorrect username or password
-                    return render_template('login.html', error='Invalid username or password')
-            
-            except:
-                pass
-            if password == result['password']:
+        try:
+            if result and ph.verify(result['password'],password ):
                 user = load_user(result['id'])
                 flask_login.login_user(user)
                 return redirect('/home')
-        return render_template('login.jinja')
+            else:
+                # Incorrect username or password
+                return render_template('login.html', error='Invalid username or password')
+        except:
+            pass
+        # This part only works if no encryption is used. KEEP COMMENTED
+        #    if password == result['password']:
+        #         user = load_user(result['id'])
+        #         flask_login.login_user(user)
+        #         return redirect('/home')
+    return render_template('login.jinja')
 
 @app.route('/logout')
 def logout():
