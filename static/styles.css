@@ -21,11 +21,11 @@ body{
 
 /* Index Page */
 #contents_list {
-    display: grid;
+    display: none;
 }
 
 #contents_map {
-    display: none;
+    display: block;
 }
 
 .grid {
@@ -52,4 +52,8 @@ body{
     width: 600px;
     margin: auto;
     padding: 20px;
+}
+
+#map {
+    height: 500px;
 }
