@@ -5,7 +5,7 @@
 //check for special characters
 function checkpass(new_password) {
     //character checker
-    var specialCharRegex = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/;
+    var specialCharRegex = /^[a-zA-Z0-9_]*$/;
 
     //if statement to test password
     if (specialCharRegex.test(new_password)) {
@@ -19,7 +19,7 @@ function validPass() {
     var new_password = document.getElementById("new_password").value;
 
     if (!checkpass(new_password)) {
-        alert("Password can't contain special characters");
+        alert("Password can't contain special characters except '_'");
         return false;
     } 
     //continues form if passwords valid
@@ -39,6 +39,7 @@ function validPass() {
             <input type="password" id='new_password' name="new_password" placeholder="Password" required>
             <input type="submit">
         </form>
+        <p>Already have an account? <a href= '/login'>Login here!</a></p>
     </div>
 </main>
 
