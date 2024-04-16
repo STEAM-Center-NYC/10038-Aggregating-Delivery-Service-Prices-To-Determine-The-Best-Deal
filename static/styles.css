@@ -57,3 +57,11 @@ body{
 #map {
     height: 500px;
 }
+
+/* Cart Page */
+
+#cart_box{
+    background-color: aqua;
+    padding: 20px;
+    border-radius: 8px;
+}
