@@ -1,6 +1,6 @@
 Flask == 3.0.0
 PyMySQL == 1.1.0
-gunicorn == 21.2.0
+gunicorn == 22.0.0
 dynaconf == 3.2.4
 Flask-Login == 0.6.3
 argon2-cffi == 23.1.0
