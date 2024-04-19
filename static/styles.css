@@ -19,6 +19,11 @@ body{
     font-family: "Nunito", sans-serif;
 }
 
+/* Template Page */
+#navBar2 {
+    display: none;
+}
+
 /* Index Page */
 #contents_list {
     display: none;
@@ -32,10 +37,12 @@ body{
     display: grid;
     grid-template-columns: 50% 45%;
     gap: 20px 20px;
+    margin: auto;
 }
 
 .grid_items {
     text-align: center;
+    padding: 10px;
 }
 
 /* Sign In // Sign Up */
@@ -56,4 +63,21 @@ body{
 
 #map {
     height: 500px;
+}
+
+/* Mobile Implementation */
+@media screen and (max-width: 480px){
+    /* Template Page */
+    #navBar1 {
+        display: none;
+    }
+
+    #navBar2 {
+        display: grid;
+    }
+
+    /* Index Page */
+    .grid{
+        grid-template-columns: auto;
+    }
 }
