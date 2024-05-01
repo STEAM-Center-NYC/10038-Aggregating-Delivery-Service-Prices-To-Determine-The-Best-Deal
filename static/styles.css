@@ -41,14 +41,14 @@ body{
 /* Sign In // Sign Up */
 
 .log_intro {
-    background-color: blue;
+    background-color: #3f474f;
     width: 600px;
     margin: auto;
     padding: 20px;
 }
 
 .log_box {
-    background-color: pink;
+    background-color: #d8d8d8;
     width: 600px;
     margin: auto;
     padding: 20px;
