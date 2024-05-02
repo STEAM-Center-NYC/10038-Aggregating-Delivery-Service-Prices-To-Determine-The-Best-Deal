@@ -52,6 +52,11 @@ body{
     width: 600px;
     margin: auto;
     padding: 20px;
+    text-align: center;
+    color: white;
+    border-radius: 8px;
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
 }
 
 .log_box {
@@ -59,11 +64,25 @@ body{
     width: 600px;
     margin: auto;
     padding: 20px;
+    text-align: center;
+    border-radius: 8px;
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
 }
 
 #map {
     height: 500px;
 }
+
+.button2 {
+    border-radius: 8px;
+    background-color: #F2B853;
+}
+
+.button2:hover {
+    background-color: #ffd857;
+}
+
 
 /* Mobile Implementation */
 @media screen and (max-width: 480px){

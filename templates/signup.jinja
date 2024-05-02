@@ -28,15 +28,22 @@ function validPass() {
 <main class="container">
     <br>
     <div class="log_intro">
-        adsfaf
+        <h3>Sign Up!</h3>
     </div>
     <div class="log_box">
         <form onsubmit="return validPass()" method="post">
+            <label for="new_username">Enter your username</label><br>
             <input type="text" name="new_username" placeholder="Username">
+            <br><br>
+            <label for="new_email">Enter your email</label><br>
             <input type="email" name="new_email" placeholder="Email">
+            <br><br>
+            <label for="new_password">Enter your password</label><br>
             <input type="password" id='new_password' name="new_password" placeholder="Password" required>
+            <br><br>
             <input type="submit">
         </form>
+        <br>
         <p>Already have an account? <a href= '/login'>Login here!</a></p>
     </div>
 </main>
