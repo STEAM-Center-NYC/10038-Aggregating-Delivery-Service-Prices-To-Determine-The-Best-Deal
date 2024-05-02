@@ -12,7 +12,7 @@
     </h3>
     <div class="grid">
         {% for name, prices in itemprice | groupby('item_name')%}
-        <div class="grid_items" style="background-color: ##ffd857;">
+        <div class="grid_items" style="background-color: #ffd857;">
             <p>{{name}}</p>
             <p>{{prices[0].item_description}}</p>
         {% for price in prices %}<p>{{price.price_value}}</p>{% endfor %}
