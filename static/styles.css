@@ -71,6 +71,10 @@ body{
     border-radius: 8px;
 }
 
+.item_des{
+    float: center;
+}
+
 /* Mobile Implementation */
 @media screen and (max-width: 480px){
     /* Template Page */
