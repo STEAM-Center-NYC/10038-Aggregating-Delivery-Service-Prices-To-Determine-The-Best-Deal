@@ -19,6 +19,15 @@ body{
     font-family: "Nunito", sans-serif;
 }
 
+.button {
+    border-radius: 8px;
+    background-color: #F2B853;
+}
+
+.button:hover {
+    background-color: #ffd857;
+}
+
 /* Template Page */
 #navBar2 {
     display: none;
@@ -46,7 +55,6 @@ body{
 }
 
 /* Sign In // Sign Up */
-
 .log_intro {
     background-color: #3f474f;
     width: 600px;
@@ -83,6 +91,47 @@ body{
     background-color: #ffd857;
 }
 
+=======
+/* Cart Page */
+#cart_box{
+    background-color: #c5c5c5;
+    padding: 20px;
+    border-radius: 8px;
+}
+
+#cartbox_item {
+    background-color: #758392;
+    border-radius: 8px;
+    padding: 10px;
+    padding-left: 50px;
+}
+
+.cart_item {
+    text-align: center;
+    display: inline;
+}
+
+.item_title {
+    font-weight: bold;
+    font-size: larger;
+}
+
+.item_des{
+    color: grey;
+    font-size: small;
+    padding-left: 18px;
+    text-overflow: inherit;
+}
+
+.item_price {
+    padding-left: 25px;
+}
+
+.item_card{
+    background-color: white;
+    padding: 10px;
+    border-radius: 9px;
+}
 
 /* Mobile Implementation */
 @media screen and (max-width: 480px){
