@@ -8,22 +8,25 @@
     crossorigin=""></script>  
 {%endblock%}
 {% block contents %}
+<head>
+    <title>Home | Frugal Foods</title>
+</head>
 <main class="container">
     <br>
     <hr>
-    <div class="px-4 py-5 my-5 text-center" style="background-image: url(/static/pictures/frugalf_logo.png);">
+    <div class="px-4 py-5 my-5 text-center" style="background-color:#d8d8d7; border-radius:8px;">
     {# This is a test picture change it when you get a good one #}
         <h1 class="display-5 fw-bold text-body-emphasis">Frugal Foods</h1>
         <br>
         <div class="col-lg-6 mx-auto">
-            <p class="lead mb-4">Add text here</p>
+            <p class="lead mb-4">Welcome to frugal foods. We are a universal delivery tool made easy. We compare all delivery service prices to find your cheapest option because our goal is to show affordable eats for your unbounded cravings!</p>
         </div>
     </div>
     <hr>
     <div class="b-example-divider"></div>
     <div class="text-center">
-        <button id="contents_mapB">Map</button> &nbsp;|&nbsp;
-        <button id="contents_listB">List</button>
+        <button id="contents_mapB" style="border-radius: 8px;">Map</button> &nbsp;|&nbsp;
+        <button id="contents_listB" style="border-radius: 8px;">List</button>
         {% if current_user.is_authenticated %}
             Hi {{ current_user.username }}!
         {% endif %}
@@ -31,10 +34,11 @@
     <hr>
     <div id="contents_list" class="grid">
         {% for results in restaurants %}
-        <div class="grid_items" style="background-color: pink;">
+        <div class="grid_items" style="background-color: #ffd857; border-radius:8px;">
             <a href="/restaurant/{{results.restaurant_id}}">
-                <img src={{results.image}}>
+                <img src={{results.image}} style="border-radius: 8px;">
             </a>
+            <br><br>
             <h3>
                 {{results.restaurant_name}}
             </h3>
@@ -45,7 +49,7 @@
         {% endfor %}
     </div>
     <div id="contents_map">
-        <div id="map">
+        <div id="map" style="border-radius: 8px;">
         </div>
             <script>
                 var map = L.map('map').fitWorld();

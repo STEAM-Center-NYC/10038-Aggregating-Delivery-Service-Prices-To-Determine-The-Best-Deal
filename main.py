@@ -69,7 +69,6 @@ def restaurant_list():
     cursor.execute("SELECT * FROM `restaurant`")
     results = cursor.fetchall()
     cursor.close()
-    # user_login = flask_login.current_user.username
     return render_template("index.jinja", restaurants = results)
 
 @app.route('/')
@@ -143,3 +142,7 @@ def login():
 def logout():
     flask_login.logout_user()
     return redirect('/')
+
+@app.route('/cart')
+def cart():
+    return render_template('cart.jinja')

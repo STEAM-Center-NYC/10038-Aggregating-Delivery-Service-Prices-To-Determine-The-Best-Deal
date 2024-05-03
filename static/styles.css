@@ -19,6 +19,20 @@ body{
     font-family: "Nunito", sans-serif;
 }
 
+.button {
+    border-radius: 8px;
+    background-color: #F2B853;
+}
+
+.button:hover {
+    background-color: #ffd857;
+}
+
+/* Template Page */
+#navBar2 {
+    display: none;
+}
+
 /* Index Page */
 #contents_list {
     display: none;
@@ -32,28 +46,106 @@ body{
     display: grid;
     grid-template-columns: 50% 45%;
     gap: 20px 20px;
+    margin: auto;
 }
 
 .grid_items {
     text-align: center;
+    padding: 10px;
 }
 
 /* Sign In // Sign Up */
-
 .log_intro {
-    background-color: blue;
+    background-color: #3f474f;
     width: 600px;
     margin: auto;
     padding: 20px;
+    text-align: center;
+    color: white;
+    border-radius: 8px;
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
 }
 
 .log_box {
-    background-color: pink;
+    background-color: #d8d8d8;
     width: 600px;
     margin: auto;
     padding: 20px;
+    text-align: center;
+    border-radius: 8px;
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
 }
 
 #map {
     height: 500px;
+}
+
+.button2 {
+    border-radius: 8px;
+    background-color: #F2B853;
+}
+
+.button2:hover {
+    background-color: #ffd857;
+}
+
+
+/* Cart Page */
+#cart_box{
+    background-color: #c5c5c5;
+    padding: 20px;
+    border-radius: 8px;
+}
+
+#cartbox_item {
+    background-color: #758392;
+    border-radius: 8px;
+    padding: 10px;
+    padding-left: 50px;
+}
+
+.cart_item {
+    text-align: center;
+    display: inline;
+}
+
+.item_title {
+    font-weight: bold;
+    font-size: larger;
+}
+
+.item_des{
+    color: grey;
+    font-size: small;
+    padding-left: 18px;
+    text-overflow: inherit;
+}
+
+.item_price {
+    padding-left: 25px;
+}
+
+.item_card{
+    background-color: white;
+    padding: 10px;
+    border-radius: 9px;
+}
+
+/* Mobile Implementation */
+@media screen and (max-width: 480px){
+    /* Template Page */
+    #navBar1 {
+        display: none;
+    }
+
+    #navBar2 {
+        display: grid;
+    }
+
+    /* Index Page */
+    .grid{
+        grid-template-columns: auto;
+    }
 }
