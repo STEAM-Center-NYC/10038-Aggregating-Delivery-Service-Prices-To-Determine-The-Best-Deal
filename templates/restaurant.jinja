@@ -1,37 +1,22 @@
 {% extends 'templates.jinja' %}
 {% block contents %}
-<head>
-    <title>{{restaurant_data.restaurant_name}} | Frugal Foods</title>
-</head>
-
 <main>
-
-    <h2>
+    <h2 class="text-center">
+        <br>
         {{restaurant_data.restaurant_name}}
+        <br>
+        <hr>
     </h2>
     {% for name,items in itemprice | groupby ('catagory_name')%}
         <h3>{{name}}</h3>
         <div class="grid">
             {% for name, prices in items | groupby('item_name')%}
-            <div class="grid_items" style="background-color: pink;">
+            <div class="grid_items" id="rest_items">
                 <p>{{name}}</p>
                 <p>{{prices[0].item_description}}</p>
             {% for price in prices %}<p>{{price.price_value}}</p>{% endfor %}
             </div>
             {% endfor %}
-=======
-    <h3 class="text-center">
-        <br>
-        {{restaurant_data.restaurant_name}}
-        <br>
-    </h3>
-    <div class="grid">
-        {% for name, prices in itemprice | groupby('item_name')%}
-        <div class="grid_items" style="background-color: #ffd857;">
-            <p>{{name}}</p>
-            <p>{{prices[0].item_description}}</p>
-        {% for price in prices %}<p>{{price.price_value}}</p>{% endfor %}
-
         </div>
     {% endfor %}
 </main>
