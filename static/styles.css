@@ -127,10 +127,17 @@ body{
     padding-left: 25px;
 }
 
-.item_card{
+.item_card {
     background-color: white;
     padding: 10px;
     border-radius: 9px;
+}
+
+/* Restaurant Page */
+
+#rest_items {
+    background-color: #ffd857;
+    border-radius: 8px;
 }
 
 /* Mobile Implementation */
