@@ -86,8 +86,12 @@ def restaurant(restaurant_id):
         INNER JOIN `price` ON `items`.item_id = `price`.item_id
         INNER JOIN `menu_catagories` on `items`.catagory_id = `menu_catagories`.catagory_id
         WHERE `items`.`restaurant_id` = {restaurant_id}
+        ORDER BY `items`.`catagory_id`
     """)
+    
     itemprice_results = cursor.fetchall()
+
+    # return itemprice_results
     return render_template("restaurant.jinja", restaurant_data = restaurant_results, itemprice = itemprice_results)
 
 ph = PasswordHasher()
