@@ -1,17 +1,18 @@
 {% extends 'templates.jinja' %}
 {% block contents %}
-<main>
+<main class="container">
     <h2 class="text-center">
         <br>
+        <img src='{{restaurant_data.image2}}'>
         {{restaurant_data.restaurant_name}}
         <br>
         <hr>
     </h2>
     {% for name,items in itemprice | groupby ('catagory_name')%}
         <h3>{{name}}</h3>
-        <div class="grid">
+        <div id="rest_grid">
             {% for name, prices in items | groupby('item_name')%}
-            <div class="grid_items" id="rest_items">
+            <div class="text-center" id="rest_items">
                 <p>{{name}}</p>
                 <p>{{prices[0].item_description}}</p>
             {% for price in prices %}<p>{{price.price_value}}</p>{% endfor %}
