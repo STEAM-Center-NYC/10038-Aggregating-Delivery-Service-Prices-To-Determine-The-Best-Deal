@@ -7,8 +7,8 @@
         <br>
         <hr>
     </h2>
-    {% for name,items in itemprice | groupby ('catagory_name')%}
-        <h3>{{name}}</h3>
+    {% for name,items in (itemprice | groupby ('catagory_id')) %}
+        <h3>{{items[0].catagory_name}}</h3>
         <div class="grid">
             {% for name, prices in items | groupby('item_name')%}
             <div class="grid_items" id="rest_items">
