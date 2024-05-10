@@ -135,6 +135,16 @@ body{
 
 /* Restaurant Page */
 
+.catagory-margin {
+    margin-left: 15px;
+    margin-bottom: 15px;
+    margin-top: 15px;
+}
+
+#rest_name {
+    margin-top: 220px;
+}
+
 #rest_items {
     background-color: #ffd857;
     border-radius: 8px;
@@ -142,13 +152,54 @@ body{
 
 }
 
-#rest_grid {
+.rest_grid {
     display: grid;
-    grid-template-columns: 25% 25% 25% 25%;
+    grid-template-columns: 31% 31% 31%;
     gap: 20px;
-    margin: auto;
-    text-align: center;
     justify-content: center;
+}
+
+#nav-style {
+    background-color: #ffd857;
+    border-radius: 8px;
+    padding: 5px;
+    position: sticky;
+    margin-top: 63px;
+}
+
+nav {
+    list-style-type: none;
+    width: 250px;
+    left: 10px;
+    top: 45px;
+}
+
+nav a {
+    color: #000000;
+    border: 4px;
+    border-radius: 12px;
+    text-decoration: none;
+    padding: 12px 12px;
+    display: block;
+}
+
+nav a:hover {
+    background-color: #e5c524;
+}
+
+#nav-menu {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+#nav {
+    flex: 0 0 auto;
+    width: 20%;
+}
+
+#menu {
+    flex: 0 0 auto;
+    width: 80%;
 }
 
 /* Mobile Implementation */

@@ -1,26 +1,56 @@
 {% extends 'templates.jinja' %}
+{%block head%}
+    <style>
+        #top_background {
+            background-image: url("{{restaurant_data.image2}}");
+            background-size: cover;
+            background-position: center;
+            border-radius: 8px;
+        }
+
+        #image_shading {
+            background-color: rgba(255, 255, 255, 0.5);
+            padding-top: 200px;
+            padding-bottom: 200px;
+        }
+    </style>
+{%endblock%}
 {% block contents %}
 <main class="container">
     <br>
-    <div>
-        <img src='{{restaurant_data.image2}}'>
+    <div id="top_background">
+        <div id="image_shading">
+            <h1 class="text-center display-1">
+                {{restaurant_data.restaurant_name}}
+            </h1>
+        </div>
     </div>
-    <h2 class="text-center">
-        {{restaurant_data.restaurant_name}}
-        <br>
-        <hr>
-    </h2>
-    {% for name,items in (itemprice | groupby ('catagory_id')) %}
-        <h3>{{items[0].catagory_name}}</h3>
-        <div id="rest_grid">
-            {% for name, prices in items | groupby('item_name')%}
-            <div class="text-center" id="rest_items">
-                <p>{{name}}</p>
-                <p>{{prices[0].item_description}}</p>
-            {% for price in prices %}<p>{{price.price_value}}</p>{% endfor %}
-            </div>
+    <br>
+    <hr>
+    <div id="nav-menu">
+        <div id="nav">
+            <nav id="nav-style">
+                {% for cg in catagory_data %}
+                <div><a href="#{{cg.catagory_id}}">{{cg.catagory_name}}</a></div>
+                {% endfor %}
+            </nav>
+        </div>
+        <div id="menu">
+            {% for id,items in (itemprice | groupby ('catagory_id')) %}
+            <section id="{{id}}">
+                <h3 class="catagory-margin">{{items[0].catagory_name}}</h3>
+                <div class="rest_grid">
+                    {% for name, prices in items | groupby('item_name')%}
+                    <div class="text-center" id="rest_items">
+                        <p>{{name}}</p>
+                        <p>{{prices[0].item_description}}</p>
+                    {% for price in prices %}<p>{{price.service_name}}: ${{'%0.2f'| format(price.price_value|float)}}</p>{% endfor %}
+                    </div>
+                    {% endfor %}
+                </div>
+            </section>
             {% endfor %}
         </div>
-    {% endfor %}
+    </div>
 </main>
 {% endblock %}
