@@ -67,9 +67,11 @@ def load_user(user_id):
 def restaurant_list():
     cursor = get_db().cursor()
     cursor.execute("SELECT * FROM `restaurant`")
+    restaurant_results = cursor.fetchone()
+    cursor.execute("SELECT * FROM `restaurant`")
     results = cursor.fetchall()
     cursor.close()
-    return render_template("index.jinja", restaurants = results)
+    return render_template("index.jinja", restaurant_data = restaurant_results, restaurants = results)
 
 @app.route('/')
 def landing ():
