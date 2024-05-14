@@ -28,9 +28,9 @@ body{
     background-color: #ffd857;
 }
 
-.bg_extend {
-    padding-top: 150px;
-    padding-bottom: 150px;
+.bg_extend1 {
+    padding-top: 250px;
+    padding-bottom: 250px;
 }
 
 /* Template Page */
@@ -49,9 +49,10 @@ body{
 
 .grid {
     display: grid;
-    grid-template-columns: 50% 45%;
-    gap: 20px 20px;
+    grid-template-columns: 31% 31% 31%;
+    gap: 10px 20px;
     margin: auto;
+    justify-content: center;
 }
 
 .grid_items {
