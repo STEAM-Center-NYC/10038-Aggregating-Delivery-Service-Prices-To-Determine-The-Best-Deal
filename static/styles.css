@@ -28,6 +28,11 @@ body{
     background-color: #ffd857;
 }
 
+.bg_extend {
+    padding-top: 150px;
+    padding-bottom: 150px;
+}
+
 /* Template Page */
 #navBar2 {
     display: none;
