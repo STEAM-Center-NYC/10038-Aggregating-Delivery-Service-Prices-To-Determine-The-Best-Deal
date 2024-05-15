@@ -42,8 +42,12 @@
     <hr>
     <div class="b-example-divider"></div>
     <div class="text-center">
-        <button id="contents_mapB" style="border-radius: 8px;">Map</button> &nbsp;|&nbsp;
-        <button id="contents_listB" style="border-radius: 8px;">List</button>
+        <button id="contents_mapB" class="ml_buttons">
+            <h5>Map</h5>
+        </button> &nbsp;|&nbsp;
+        <button id="contents_listB" class="ml_buttons">
+            <h5>List</h5>
+        </button>
         {% if current_user.is_authenticated %}
             Hi {{ current_user.username }}!
         {% endif %}

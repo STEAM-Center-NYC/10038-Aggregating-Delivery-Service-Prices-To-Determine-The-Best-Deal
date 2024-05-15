@@ -64,6 +64,18 @@ body{
     padding: 100px;
 }
 
+.ml_buttons {
+    background-color: #F2B853;
+    border-radius: 8px;
+    padding-top: 10px;
+    padding-left: 25px;
+    padding-right: 25px;
+}
+
+.ml_buttons:hover {
+    background-color: #ffd857;
+}
+
 /* Sign In // Sign Up */
 .log_intro {
     background-color: #3f474f;
