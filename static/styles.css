@@ -197,6 +197,13 @@ body{
     justify-content: center;
 }
 
+.search-grid {
+    display: grid !important;
+    grid-template-columns: 31% 31% 31%;
+    gap: 20px;
+    justify-content: center;
+}
+
 #nav-style {
     background-color: #ffd857;
     border-radius: 8px;

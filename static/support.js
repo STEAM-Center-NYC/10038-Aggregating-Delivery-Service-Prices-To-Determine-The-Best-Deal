@@ -37,15 +37,27 @@ map.addEventListener('click', function() {
 // Restaurant Pages
 
 function search_item() {
-  let input = document.getElementById('searchbar').value
-  input = input.toLowerCase();
-  let x = document.getElementsByClassName('searches');
-  for (i = 0; i < x.length; i++) {
-    if (!x[i].innerHTML.toLowerCase().includes(input)) {
-      x[i].style.display = "none";
-    }
-    else {
-      x[i].style.display = "list-item";
-    }
-  }
+  let input = document.getElementById('searchbar').value.toLowerCase().trim();
+  let categories = document.querySelectorAll('.catagory-margin');
+
+  categories.forEach(category => {
+      let categoryDisplayed = false;
+
+      let categoryItems = category.parentElement.querySelectorAll('.searches');
+
+      categoryItems.forEach(item => {
+          let itemName = item.querySelector('p:first-child').innerText.toLowerCase();
+          let itemDescription = item.querySelector('p:nth-child(2)').innerText.toLowerCase();
+          
+          // Check if item name or description contains the search input
+          if (itemName.includes(input) || itemDescription.includes(input)) {
+              item.style.display = "list-item";
+              categoryDisplayed = true;
+          } else {
+              item.style.display = "none";
+          }
+      });
+
+      category.style.display = categoryDisplayed ? "block" : "none";
+  });
 }
