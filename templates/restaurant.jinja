@@ -43,23 +43,31 @@
             </div>
         </div>
     </div>
+    <div class="container">
+        <input id="searchbar"
+               onkeyup="search_item()" 
+               onkeyup="hide()"
+               type="text" name="search" 
+               placeholder="Search items..">
+    </div>
     <br>
     <hr>
+
     <div id="nav-menu">
         <div id="nav">
             <nav id="nav-style">
                 {% for cg in catagory_data %}
                 <div><a href="#{{cg.catagory_id}}">{{cg.catagory_name}}</a></div>
-                {% endfor %}
+                {% endfor %}    
             </nav>
         </div>
         <div id="menu">
             {% for id,items in (itemprice | groupby ('catagory_id')) %}
             <section id="{{id}}">
-                <h3 class="catagory-margin">{{items[0].catagory_name}}</h3>
+                <h3 class="catagory-margin" id="h s">{{items[0].catagory_name}}</h3>
                 <div class="rest_grid">
                     {% for name, prices in items | groupby('item_name')%}
-                    <div class="text-center" id="rest_items">
+                    <div class="searches list text-center rest_items">
                         <p>{{name}}</p>
                         <p>{{prices[0].item_description}}</p>
                     {% for price in prices %}<p>{{price.service_name}}: ${{'%0.2f'| format(price.price_value|float)}}</p>{% endfor %}
@@ -71,4 +79,12 @@
         </div>
     </div>
 </main>
+<script>
+  function hide() {
+    document.getElementById('h').hidden = true
+  }
+  function show() {
+    document.getElementById('s').hidden = false
+  }
+</script>
 {% endblock %}

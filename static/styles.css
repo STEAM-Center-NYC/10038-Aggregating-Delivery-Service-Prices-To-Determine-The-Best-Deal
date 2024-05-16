@@ -179,11 +179,15 @@ body{
     margin-top: 220px;
 }
 
-#rest_items {
+.rest_items {
     background-color: #ffd857;
     border-radius: 8px;
     padding: 5px;
 
+}
+
+.list {
+    list-style: none;
 }
 
 .rest_grid {
