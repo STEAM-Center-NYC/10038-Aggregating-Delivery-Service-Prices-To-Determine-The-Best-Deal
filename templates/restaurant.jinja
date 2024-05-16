@@ -43,6 +43,12 @@
             </div>
         </div>
     </div>
+    <div class="container">
+        <input id="searchbar"
+            onkeyup="search_item()"
+            type="text" name="search" 
+            placeholder="Search items..">
+    </div>
     <br>
     <hr>
     <div id="nav-menu">
@@ -50,7 +56,7 @@
             <nav id="nav-style">
                 {% for cg in catagory_data %}
                 <div><a href="#{{cg.catagory_id}}">{{cg.catagory_name}}</a></div>
-                {% endfor %}
+                {% endfor %}    
             </nav>
         </div>
         <div id="menu">
@@ -59,7 +65,7 @@
                 <h3 class="catagory-margin">{{items[0].catagory_name}}</h3>
                 <div class="rest_grid">
                     {% for name, prices in items | groupby('item_name')%}
-                    <div class="text-center" id="rest_items">
+                    <div class="searches list text-center rest_items">
                         <p>{{name}}</p>
                         <p>{{prices[0].item_description}}</p>
                     {% for price in prices %}<p>{{price.service_name}}: ${{'%0.2f'| format(price.price_value|float)}}</p>{% endfor %}

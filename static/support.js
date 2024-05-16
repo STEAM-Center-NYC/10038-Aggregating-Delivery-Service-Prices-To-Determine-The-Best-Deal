@@ -34,5 +34,30 @@ map.addEventListener('click', function() {
   document.getElementById('contents_list').style.display = 'none';
 });
 
-// Templates Page
+// Restaurant Pages
 
+function search_item() {
+  let input = document.getElementById('searchbar').value.toLowerCase().trim();
+  let categories = document.querySelectorAll('.catagory-margin');
+
+  categories.forEach(category => {
+      let categoryDisplayed = false;
+
+      let categoryItems = category.parentElement.querySelectorAll('.searches');
+
+      categoryItems.forEach(item => {
+          let itemName = item.querySelector('p:first-child').innerText.toLowerCase();
+          let itemDescription = item.querySelector('p:nth-child(2)').innerText.toLowerCase();
+          
+          // Check if item name or description contains the search input
+          if (itemName.includes(input) || itemDescription.includes(input)) {
+              item.style.display = "list-item";
+              categoryDisplayed = true;
+          } else {
+              item.style.display = "none";
+          }
+      });
+
+      category.style.display = categoryDisplayed ? "block" : "none";
+  });
+}
