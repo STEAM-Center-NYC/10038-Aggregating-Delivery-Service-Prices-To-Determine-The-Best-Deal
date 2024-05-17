@@ -67,9 +67,11 @@ def load_user(user_id):
 def restaurant_list():
     cursor = get_db().cursor()
     cursor.execute("SELECT * FROM `restaurant`")
+    restaurant_results = cursor.fetchone()
+    cursor.execute("SELECT * FROM `restaurant`")
     results = cursor.fetchall()
     cursor.close()
-    return render_template("index.jinja", restaurants = results)
+    return render_template("index.jinja", restaurant_data = restaurant_results, restaurants = results)
 
 @app.route('/')
 def landing ():
@@ -81,9 +83,12 @@ def restaurant(restaurant_id):
     cursor = get_db().cursor()
     cursor.execute(f"SELECT * FROM `restaurant` WHERE `restaurant_id` = {restaurant_id}")
     restaurant_results = cursor.fetchone()
+    cursor.execute(f"SELECT * FROM `menu_catagories` WHERE `restaurant_id` = {restaurant_id}")
+    catagory_results = cursor.fetchall()
     cursor.execute(f"""
         SELECT * FROM `items` 
         INNER JOIN `price` ON `items`.item_id = `price`.item_id
+        INNER JOIN `delivery_services` ON `price`.service_id = `delivery_services`.service_id
         INNER JOIN `menu_catagories` on `items`.catagory_id = `menu_catagories`.catagory_id
         WHERE `items`.`restaurant_id` = {restaurant_id}
         ORDER BY `items`.`catagory_id`
@@ -92,7 +97,7 @@ def restaurant(restaurant_id):
     itemprice_results = cursor.fetchall()
 
     # return itemprice_results
-    return render_template("restaurant.jinja", restaurant_data = restaurant_results, itemprice = itemprice_results)
+    return render_template("restaurant.jinja", restaurant_data = restaurant_results, catagory_data = catagory_results, itemprice = itemprice_results)
 
 ph = PasswordHasher()
 

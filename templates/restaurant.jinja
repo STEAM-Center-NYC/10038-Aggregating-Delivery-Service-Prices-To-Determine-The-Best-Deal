@@ -1,23 +1,80 @@
 {% extends 'templates.jinja' %}
+{%block head%}
+    <style>
+        #top_background {
+            background-image: url("{{restaurant_data.image2}}");
+            background-size: cover;
+            background-position: center;
+            border-radius: 8px;
+        }
+        a:link {
+            color: black;
+            text-decoration: none;
+        }
+        a:visited {
+            color: black;
+        }
+        a:hover {
+            color:darkblue;
+        }
+    </style>
+{%endblock%}
 {% block contents %}
-<main>
-    <h2 class="text-center">
-        <br>
-        {{restaurant_data.restaurant_name}}
-        <br>
-        <hr>
-    </h2>
-    {% for name,items in (itemprice | groupby ('catagory_id')) %}
-        <h3>{{items[0].catagory_name}}</h3>
-        <div class="grid">
-            {% for name, prices in items | groupby('item_name')%}
-            <div class="grid_items" id="rest_items">
-                <p>{{name}}</p>
-                <p>{{prices[0].item_description}}</p>
-            {% for price in prices %}<p>{{price.price_value}}</p>{% endfor %}
+<main class="container">
+    <br>
+    <div id="top_background">
+        <div id="image_shading1">
+            <h1 class="text-center display-1">
+                {{restaurant_data.restaurant_name}}
+            </h1>
+        </div>
+        <div id="add-web">
+            <div id="add">
+                <h5>
+                    Address: {{restaurant_data.restaurant_address}}
+                </h5>
             </div>
+            <div id="web">
+                <a href="{{restaurant_data.restaurant_webpage}}" target="_blank">
+                    <h5>
+                        Restaurant Website Link: {{restaurant_data.restaurant_webpage}}
+                    </h5>
+                </a>
+            </div>
+        </div>
+    </div>
+    <br>
+    <hr>
+    <div id="nav-menu">
+        <div id="nav">
+            <nav id="nav-style">
+                <div id="searchbar_style">
+                    <input id="searchbar"
+                        onkeyup="search_item()"
+                        type="text" name="search" 
+                        placeholder="Search items...">
+                </div>
+                {% for cg in catagory_data %}
+                <div><a href="#{{cg.catagory_id}}">{{cg.catagory_name}}</a></div>
+                {% endfor %}    
+            </nav>
+        </div>
+        <div id="menu">
+            {% for id,items in (itemprice | groupby ('catagory_id')) %}
+            <section id="{{id}}">
+                <h3 class="catagory-margin">{{items[0].catagory_name}}</h3>
+                <div class="rest_grid">
+                    {% for name, prices in items | groupby('item_name')%}
+                    <div class="searches list text-center rest_items">
+                        <p>{{name}}</p>
+                        <p>{{prices[0].item_description}}</p>
+                    {% for price in prices %}<p>{{price.service_name}}: ${{'%0.2f'| format(price.price_value|float)}}</p>{% endfor %}
+                    </div>
+                    {% endfor %}
+                </div>
+            </section>
             {% endfor %}
         </div>
-    {% endfor %}
+    </div>
 </main>
 {% endblock %}

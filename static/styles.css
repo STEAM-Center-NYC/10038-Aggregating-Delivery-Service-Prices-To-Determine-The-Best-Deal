@@ -28,6 +28,11 @@ body{
     background-color: #ffd857;
 }
 
+.bg_extend1 {
+    padding-top: 250px;
+    padding-bottom: 250px;
+}
+
 /* Template Page */
 #navBar2 {
     display: none;
@@ -44,14 +49,31 @@ body{
 
 .grid {
     display: grid;
-    grid-template-columns: 50% 45%;
-    gap: 20px 20px;
+    grid-template-columns: 31% 31% 31%;
+    gap: 10px 20px;
     margin: auto;
+    justify-content: center;
 }
 
 .grid_items {
     text-align: center;
-    padding: 10px;
+}
+
+.image_shading3 {
+    background-color: rgba(255, 255, 255, 0.5);
+    padding: 100px;
+}
+
+.ml_buttons {
+    background-color: #F2B853;
+    border-radius: 8px;
+    padding-top: 10px;
+    padding-left: 25px;
+    padding-right: 25px;
+}
+
+.ml_buttons:hover {
+    background-color: #ffd857;
 }
 
 /* Sign In // Sign Up */
@@ -135,9 +157,106 @@ body{
 
 /* Restaurant Page */
 
-#rest_items {
+#image_shading1 {
+    background-color: rgba(255, 255, 255, 0.5);
+    padding-top: 175px;
+    padding-bottom: 175px;
+}
+
+#add-web {
+    display: flex;
+    justify-content: space-between;
+    background-color: rgba(255, 255, 255, 0.5);
+}
+
+#add {
+    flex: 0 0 auto;
+    justify-content: flex-start;
+    margin-left: 10px;
+}
+
+#web {
+    flex: 0 0 auto;
+    justify-content: flex-end;
+    margin-right: 10px;
+}
+
+.catagory-margin {
+    margin-left: 15px;
+    margin-bottom: 15px;
+    margin-top: 15px;
+}
+
+#rest_name {
+    margin-top: 220px;
+}
+
+.rest_items {
     background-color: #ffd857;
     border-radius: 8px;
+    padding: 5px;
+
+}
+
+.list {
+    list-style: none;
+}
+
+.rest_grid {
+    display: grid;
+    grid-template-columns: 31% 31% 31%;
+    gap: 20px;
+    justify-content: center;
+}
+
+#searchbar_style {
+    margin-top: 5px;
+    margin-bottom: 5px;
+    margin-left: 10px;
+    color: #e5c524;
+}
+
+#nav-style {
+    background-color: #ffd857;
+    border-radius: 8px;
+    padding: 5px;
+    position: sticky;
+    margin-top: 63px;
+}
+
+nav {
+    list-style-type: none;
+    width: 250px;
+    left: 10px;
+    top: 28px;
+}
+
+nav a {
+    color: #000000;
+    border: 4px;
+    border-radius: 12px;
+    text-decoration: none;
+    padding: 12px 12px;
+    display: block;
+}
+
+nav a:hover {
+    background-color: #e5c524;
+}
+
+#nav-menu {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+#nav {
+    flex: 0 0 auto;
+    width: 20%;
+}
+
+#menu {
+    flex: 0 0 auto;
+    width: 80%;
 }
 
 /* Mobile Implementation */
