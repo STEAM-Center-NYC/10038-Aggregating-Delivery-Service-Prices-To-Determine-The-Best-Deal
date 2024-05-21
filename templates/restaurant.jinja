@@ -71,9 +71,6 @@
                     {% for price in prices %}<p>{{price.service_name}}: ${{'%0.2f'| format(price.price_value|float)}}</p>{% endfor %}
                     </div>
                     {% endfor %}
-                    <div class="popup" onclick="popup()">Click me to toggle the popup!
-                        <span class="popuptext" id="myPopup">A Simple Popup!</span>
-                    </div>
                 </div>
             </section>
             {% endfor %}

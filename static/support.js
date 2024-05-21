@@ -61,7 +61,3 @@ function search_item() {
       category.style.display = categoryDisplayed ? "block" : "none";
   });
 }
-function popup() {
-  var popup = document.getElementById("myPopup");
-  popup.classList.toggle("show");
-}
