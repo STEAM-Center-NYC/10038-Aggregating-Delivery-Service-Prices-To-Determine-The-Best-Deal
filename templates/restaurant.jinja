@@ -68,6 +68,9 @@
                     <div class="searches list text-center rest_items">
                         <p>{{name}}</p>
                         <p>{{prices[0].item_description}}</p>
+                        <form method="POST" action="/addtocart/{{prices[0]['item_id']}}">
+                            <input class="button-style" type="submit" value="Add To Cart">
+                        </form>
                     {% for price in prices %}<p>{{price.service_name}}: ${{'%0.2f'| format(price.price_value|float)}}</p>{% endfor %}
                     </div>
                     {% endfor %}

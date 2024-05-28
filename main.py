@@ -77,6 +77,29 @@ def restaurant_list():
 def landing ():
     return render_template ('landing.jinja')
 
+@app.route('/addtocart/<int:new_item>', methods=['POST'])
+def addtocart (new_item):
+    new_user = flask_login.current_user.id
+    cursor = get_db().cursor()
+    cursor.execute(f"SELECT `restaurant_id` FROM `items` WHERE `item_id` = {new_item}")
+    item = cursor.fetchone()
+    cursor.execute(f"INSERT INTO `cart`(`user_id`,`item_id`) VALUES ('{new_user}', '{new_item}')")
+    cursor.close()
+    get_db().commit()
+    return redirect(f'/restaurant/{item["restaurant_id"]}')
+
+@app.route('/cart')
+def cart():
+    cursor = get_db().cursor()
+    cursor.execute(f"""
+        SELECT * FROM `cart` 
+        INNER JOIN `items` ON `cart`.item_id = `items`.item_id
+        INNER JOIN `price` ON `cart`.item_id = `price`.item_id
+        INNER JOIN `delivery_services` ON `price`.service_id = `delivery_services`.service_id
+    """)
+    cart_results = cursor.fetchall()
+    cursor.close()
+    return render_template('cart.jinja', cart = cart_results)
 
 @app.route('/restaurant/<restaurant_id>', methods=['GET', 'POST'])
 def restaurant(restaurant_id):
@@ -93,6 +116,7 @@ def restaurant(restaurant_id):
         WHERE `items`.`restaurant_id` = {restaurant_id}
         ORDER BY `items`.`catagory_id`
     """)
+    cursor.close()
     
     itemprice_results = cursor.fetchall()
 
@@ -151,7 +175,3 @@ def login():
 def logout():
     flask_login.logout_user()
     return redirect('/')
-
-@app.route('/cart')
-def cart():
-    return render_template('cart.jinja')
