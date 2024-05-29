@@ -34,7 +34,7 @@ driver.get(DoorDash)
 # x and l are variables used in order to control the while loop statement thats used below, for example l its used as the limit of iterations
 # while x counts the amounts of iterations.(Right now its on 50 for testing purposes. Recommend to put it on 600 for an actual scan).
 x = 0
-l = 50
+l = 630
 
 # The variable divs its being used to store all the data that is gathered by beautifulsoup4 in order to use later in an for loop.
 divs = []
@@ -86,40 +86,56 @@ connection = pymysql.connect(
 
 # limit variable and the if statement are just a failed attempt at stopping the code from replicating data by having it check if the data already exist.
 limit = []
+subItems = 0
+failed_attemps = 0
+
 for items in divs:
-    limit.extend(items)
-    if items in limit:
+    # the next for segments are using the .find from beautifulsoup as explained before to try and filter out the items by using a attribute unique for them.
+    # .contents is used to only gather the actual text and not the code with text.
+    item_id = items.attrs['data-item-id']
+
+    if item_id in limit:
         continue
     else:
-        # the next for segments are using the .find from beautifulsoup as explained before to try and filter out the items by using a attribute unique for them.
-        # .contents is used to only gather the actual text and not the code with text.
-        Item_Name = items.find('h3', {'data-telemetry-id' : "storeMenuItem.title"})
-        item_name = Item_Name.contents
+        try:
+            print(item_id)
+            limit.append(item_id)
 
-        Price = items.find('span', {'data-anchor-id' : "StoreMenuItemPrice"})
-        item_price = Price.contents
-        item_price = [item.replace('$', '') for item in item_price]
+            Item_Name = items.find('h3', {'data-telemetry-id' : "storeMenuItem.title"})
+            item_name = Item_Name.contents
 
-        Picture = items.find('img')
-        item_picture = Picture.attrs['src']
+            Price = items.find('span', {'data-anchor-id' : "StoreMenuItemPrice"})
+            item_price = Price.contents
+            item_price = [item.replace('$', '') for item in item_price]
 
-        Des = items.find('span', {'data-telemetry-id' : "storeMenuItem.subtitle"})
-        item_des = Des.contents
+            Picture = items.find('img')
+            item_picture = Picture.attrs['src']
 
-        cursor = connection.cursor()
-        # this code is to make the bot automatically upload the data into the database. For now its manual input on restaurant and category but hopefully we could get the category automated.
-        cursor.execute(f'INSERT INTO `items` (`item_name`, `picture`, `restaurant_id`, `item_description`, `category_id`) VALUES ("{item_name[0]}", "{item_picture}", "1", "{item_des[0]}", "1");')
-        connection.commit()
-        # this execute is to be able to get the id of the item uploaded to be able to assign the id on the price.
-        cursor.execute(f"SELECT `item_id` FROM `items` ORDER BY `item_id` DESC;")
-        connection.commit()
-        id = cursor.fetchone()
-        result = id['item_id']
-        # this execute uploads the price and also uses the id collected before in order to connect it with the item.
-        cursor.execute(f'INSERT INTO `price` (`price_value`, `item_id`, `service_id`) VALUES ("{item_price[0]}", "{result}","1")')
-        cursor.close()
-        connection.commit()
+            Des = items.find('span', {'data-telemetry-id' : "storeMenuItem.subtitle"})
+            item_des = Des.contents
 
-print(f'Data has been submitted to the Database. Please check if data is correct on: {db_link}')
+            cursor = connection.cursor()
+            # this code is to make the bot automatically upload the data into the database. For now its manual input on restaurant and category but hopefully we could get the category automated.
+            cursor.execute(f'INSERT INTO `items` (`item_name`, `picture`, `restaurant_id`, `item_description`, `category_id`) VALUES ("{item_name[0]}", "{item_picture}", "1", "{item_des[0]}", "1");')
+            connection.commit()
+            # this execute is to be able to get the id of the item uploaded to be able to assign the id on the price.
+            cursor.execute(f"SELECT `item_id` FROM `items` ORDER BY `item_id` DESC;")
+            connection.commit()
+            id = cursor.fetchone()
+            result = id['item_id']
+            # this execute uploads the price and also uses the id collected before in order to connect it with the item.
+            cursor.execute(f'INSERT INTO `price` (`price_value`, `item_id`, `service_id`) VALUES ("{item_price[0]}", "{result}","1")')
+            cursor.close()
+            connection.commit()
+            subItems+=1
+        except:
+            failed_attemps+=1
+            pass
+
+print()
+if failed_attemps > 0:
+    print(f'There was a total of {failed_attemps} failed attemps for submitted items!')
+print()
+print(f'Total of {subItems} items has been submitted to the Database. Please check if data is correct on: https://{db_link}')
 
 driver.quit()
