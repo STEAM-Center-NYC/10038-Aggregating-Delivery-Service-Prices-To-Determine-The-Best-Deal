@@ -20,6 +20,17 @@
     </style>
 {%endblock%}
 {% block contents %}
+<div class="flash-container">
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <ul class="flashes">
+                {% for message in messages %}
+                    <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
+</div>
 <main class="container">
     <br>
     <div id="top_background">
@@ -49,10 +60,10 @@
         <div id="nav">
             <nav id="nav-style">
                 <div id="searchbar_style">
-                    <input id="searchbar"
-                        onkeyup="search_item()"
-                        type="text" name="search" 
-                        placeholder="Search items...">
+                    <input onkeyup="search_item()" 
+                    id="searchbar" type="text" name="search" 
+                    class="form-control form-control-white text-bg-white" 
+                    placeholder="Search items...">
                 </div>
                 {% for cg in catagory_data %}
                 <div><a href="#{{cg.catagory_id}}">{{cg.catagory_name}}</a></div>

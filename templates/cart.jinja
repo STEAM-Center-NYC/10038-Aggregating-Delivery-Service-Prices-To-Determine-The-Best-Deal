@@ -7,7 +7,7 @@
         <h1>Your Cart</h1>
         <hr>
         <div id="cartbox_item">
-            {%for name, prices in cart | groupby('item_name')%}
+            {% for name, prices in cart | groupby('item_name') %}
                 <div class="item_card">
                     <div class="cart_item">
                         <span class="item_title">{{name}}:</span>
@@ -15,10 +15,13 @@
                             <span class="item_price">{{price.service_name}}: ${{'%0.2f'| format(price.price_value|float)}}</span>
                         {% endfor %}
                         <br>
-                        <span class="item_des">{{prices[0].item_description}}</span>
+                        <span class="item_des">{{prices[0].item_description}}</span>              
                     </div>
+                    <form method="POST" action="/deletefromcart/{{prices[0]['cart_id']}}">
+                        <input class="button-style" type="submit" value="Remove From Cart">
+                    </form>
                 </div>
-            {%endfor%}
+            {% endfor %}
         </div>
         <hr>
         <p>Total:</p>

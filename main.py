@@ -1,10 +1,9 @@
-from flask import Flask, render_template, request, redirect, g
+from flask import Flask, render_template, request, redirect, g, flash
 import pymysql
 import pymysql.cursors
 import flask_login
 from dynaconf import Dynaconf 
 from argon2 import PasswordHasher
-
 
 settings = Dynaconf(
     settings_file = ('settings.toml')
@@ -77,29 +76,50 @@ def restaurant_list():
 def landing ():
     return render_template ('landing.jinja')
 
-@app.route('/addtocart/<int:new_item>', methods=['POST'])
-def addtocart (new_item):
-    new_user = flask_login.current_user.id
-    cursor = get_db().cursor()
-    cursor.execute(f"SELECT `restaurant_id` FROM `items` WHERE `item_id` = {new_item}")
-    item = cursor.fetchone()
-    cursor.execute(f"INSERT INTO `cart`(`user_id`,`item_id`) VALUES ('{new_user}', '{new_item}')")
-    cursor.close()
-    get_db().commit()
-    return redirect(f'/restaurant/{item["restaurant_id"]}')
-
 @app.route('/cart')
 def cart():
+    new_user = flask_login.current_user.id
     cursor = get_db().cursor()
     cursor.execute(f"""
         SELECT * FROM `cart` 
         INNER JOIN `items` ON `cart`.item_id = `items`.item_id
         INNER JOIN `price` ON `cart`.item_id = `price`.item_id
         INNER JOIN `delivery_services` ON `price`.service_id = `delivery_services`.service_id
+        WHERE `user_id` = {new_user}
     """)
     cart_results = cursor.fetchall()
     cursor.close()
     return render_template('cart.jinja', cart = cart_results)
+
+@app.route('/addtocart/<int:new_item>', methods=['POST'])
+def addtocart (new_item):
+    new_user = flask_login.current_user.id
+    cursor = get_db().cursor()
+    cursor.execute(f"SELECT `restaurant_id` FROM `items` WHERE `item_id` = {new_item}")
+    item_rid = cursor.fetchone()
+    cursor.execute(f"""
+        SELECT `restaurant_id` FROM `cart` 
+        INNER JOIN `items` ON `cart`.item_id = `items`.item_id
+        WHERE `user_id` = {new_user}
+    """)
+    comp = cursor.fetchone()
+    if item_rid == comp or comp is None:
+        cursor.execute(f"INSERT INTO `cart`(`user_id`,`item_id`) VALUES ('{new_user}', '{new_item}')")
+        flash('You added an item to the cart!')
+    else:
+        flash('Either select an item from the correct restaurant, or clear your shopping cart of any items from a different restaurant please.')
+    cursor.close()
+    get_db().commit()
+    return redirect(f'/restaurant/{item_rid["restaurant_id"]}')
+
+@app.route('/deletefromcart/<int:delete_item>', methods=['POST'])
+def cart_delete(delete_item):
+    cursor = get_db().cursor()
+    cursor.execute(f"DELETE FROM `cart` WHERE `cart_id` = {delete_item}")
+    cursor.close()
+    get_db().commit()
+    return redirect('/cart')
+
 
 @app.route('/restaurant/<restaurant_id>', methods=['GET', 'POST'])
 def restaurant(restaurant_id):
