@@ -20,18 +20,17 @@
     </style>
 {%endblock%}
 {% block contents %}
-<div class="flash-container">
-    {% with messages = get_flashed_messages() %}
-        {% if messages %}
-            <ul class="flashes">
-                {% for message in messages %}
-                    <li>{{ message }}</li>
-                {% endfor %}
-            </ul>
-        {% endif %}
-    {% endwith %}
-</div>
+
 <main class="container">
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                    {% for message in messages %}
+                        <div class="alert alert-primary alert-style" role="alert">
+                        {{message}}
+                        </div>
+                    {% endfor %}
+            {% endif %}
+        {% endwith %}
     <br>
     <div id="top_background">
         <div id="image_shading1">

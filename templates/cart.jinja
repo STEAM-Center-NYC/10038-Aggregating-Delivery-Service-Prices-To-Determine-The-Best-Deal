@@ -3,6 +3,15 @@
 
 <main class="container">
     <br>
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-primary alert-style" role="alert">
+                {{message}}
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
     <div id='cart_box'>
         <h1>Your Cart</h1>
         <hr>

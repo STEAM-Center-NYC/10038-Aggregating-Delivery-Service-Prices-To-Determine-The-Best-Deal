@@ -61,3 +61,12 @@ function search_item() {
       category.style.display = categoryDisplayed ? "block" : "none";
   });
 }
+
+document.addEventListener('DOMContentLoaded', function() {
+  var flashContainer = document.querySelector('.flash-container');
+  if (flashContainer) {
+      setTimeout(function() {
+          flashContainer.style.display = 'none';
+      }, 5000); // Hide flash after 5 seconds
+  }
+});

@@ -103,11 +103,17 @@ def addtocart (new_item):
         WHERE `user_id` = {new_user}
     """)
     comp = cursor.fetchone()
-    if item_rid == comp or comp is None:
-        cursor.execute(f"INSERT INTO `cart`(`user_id`,`item_id`) VALUES ('{new_user}', '{new_item}')")
+    cursor.execute(f"SELECT `item_id` FROM `cart` WHERE `item_id` = {new_item}")
+    comp2 = cursor.fetchone()
+    if comp2 is not None and new_item == comp2['item_id']:
+        cursor.execute(f"UPDATE `cart` SET `quantity` = `quantity`+1 WHERE `item_id` = {new_item}")
         flash('You added an item to the cart!')
     else:
-        flash('Either select an item from the correct restaurant, or clear your shopping cart of any items from a different restaurant please.')
+        if item_rid == comp or comp is None:
+            cursor.execute(f"INSERT INTO `cart`(`user_id`,`item_id`) VALUES ('{new_user}', '{new_item}')")
+            flash('You added an item to the cart!')
+        else:
+            flash('Either select an item from the correct restaurant, or clear your shopping cart of any items from a different restaurant please.')
     cursor.close()
     get_db().commit()
     return redirect(f'/restaurant/{item_rid["restaurant_id"]}')
@@ -115,7 +121,13 @@ def addtocart (new_item):
 @app.route('/deletefromcart/<int:delete_item>', methods=['POST'])
 def cart_delete(delete_item):
     cursor = get_db().cursor()
+    cursor.execute(f"SELECT `quantity` FROM `cart` WHERE `cart_id` = {delete_item}")
+    comp = cursor.fetchone()
     cursor.execute(f"DELETE FROM `cart` WHERE `cart_id` = {delete_item}")
+    if comp['quantity'] > 1:
+        flash("Items removed from cart!")
+    else:
+        flash("Item removed from cart!")
     cursor.close()
     get_db().commit()
     return redirect('/cart')

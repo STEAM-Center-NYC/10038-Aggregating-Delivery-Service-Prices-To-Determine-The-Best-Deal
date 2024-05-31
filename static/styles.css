@@ -260,27 +260,9 @@ nav a:hover {
     width: 80%;
 }
 
-.flash-container {
-    position: fixed;
-    top: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 300px; /* Adjust width as needed */
-    background-color: #f2f2f2;
-    border: 1px solid #ccc;
-    padding: 10px;
-    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
-    z-index: 9999; /* Ensure it appears on top of other content */
-}
-
-.flashes {
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
-}
-
-.flashes li {
-    margin-bottom: 5px;
+.alert-style {
+    width: fit-content;
+    margin: 20px auto 20px auto;
 }
 
 /* Mobile Implementation */
