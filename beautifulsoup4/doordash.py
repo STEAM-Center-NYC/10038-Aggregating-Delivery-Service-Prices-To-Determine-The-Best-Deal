@@ -13,6 +13,7 @@ DoorDash = ("https://www.doordash.com/store/mcdonald's-southside-837652/?cursor=
 FrugalFoods=('https://frugal-foods.circuitbreakers.tech/restaurant/7')
 GrubHub=('https://www.grubhub.com/restaurant/mcdonalds-267-broadway-brooklyn/1339391')
 UberEats=("https://www.ubereats.com/store/mcdonalds-brooklyn-flatbush-ave/mAWk-EcAQ3GYjO2AIcKMrw?diningMode=DELIVERY")
+Postmates=("https://postmates.com/store/mcdonalds-brooklyn-flatbush-ave/mAWk-EcAQ3GYjO2AIcKMrw?diningMode=DELIVERY")
 # result = requests.get(url).text
 
 # Dont delete commented code here since this was done to try and fool the anti-bot at grubhub.
@@ -87,7 +88,7 @@ connection = pymysql.connect(
 # limit variable and the if statement are just a failed attempt at stopping the code from replicating data by having it check if the data already exist.
 limit = []
 subItems = 0
-failed_attemps = 0
+failed_attempts = 0
 
 for items in divs:
     # the next for segments are using the .find from beautifulsoup as explained before to try and filter out the items by using a attribute unique for them.
@@ -98,25 +99,30 @@ for items in divs:
         continue
     else:
         try:
-            print(item_id)
             limit.append(item_id)
 
             Item_Name = items.find('h3', {'data-telemetry-id' : "storeMenuItem.title"})
             item_name = Item_Name.contents
-
             Price = items.find('span', {'data-anchor-id' : "StoreMenuItemPrice"})
-            item_price = Price.contents
-            item_price = [item.replace('$', '') for item in item_price]
+            if Price:
+                item_price = Price.contents
+                item_price = [item.replace('$', '') for item in item_price]
+            else:
+                 continue
 
             Picture = items.find('img')
             item_picture = Picture.attrs['src']
 
             Des = items.find('span', {'data-telemetry-id' : "storeMenuItem.subtitle"})
             item_des = Des.contents
+            if not item_des:
+                item_des = ' '
+            else:
+                 item_des = item_des[0]
 
             cursor = connection.cursor()
             # this code is to make the bot automatically upload the data into the database. For now its manual input on restaurant and category but hopefully we could get the category automated.
-            cursor.execute(f'INSERT INTO `items` (`item_name`, `picture`, `restaurant_id`, `item_description`, `category_id`) VALUES ("{item_name[0]}", "{item_picture}", "1", "{item_des[0]}", "1");')
+            cursor.execute(f'INSERT INTO `items` (`item_name`, `picture`, `restaurant_id`, `item_description`, `category_id`) VALUES ("{item_name[0]}", "{item_picture}", "1", "{item_des}", "1");')
             connection.commit()
             # this execute is to be able to get the id of the item uploaded to be able to assign the id on the price.
             cursor.execute(f"SELECT `item_id` FROM `items` ORDER BY `item_id` DESC;")
@@ -129,12 +135,12 @@ for items in divs:
             connection.commit()
             subItems+=1
         except:
-            failed_attemps+=1
+            failed_attempts+=1
             pass
 
 print()
-if failed_attemps > 0:
-    print(f'There was a total of {failed_attemps} failed attemps for submitted items!')
+if failed_attempts > 0:
+    print(f'There was a total of {failed_attempts} failed attempts for submitted items.')
 print()
 print(f'Total of {subItems} items has been submitted to the Database. Please check if data is correct on: https://{db_link}')
 

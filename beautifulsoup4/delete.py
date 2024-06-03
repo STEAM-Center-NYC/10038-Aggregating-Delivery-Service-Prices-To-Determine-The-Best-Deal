@@ -12,8 +12,8 @@ connection = pymysql.connect(
 )
 
 cursor = connection.cursor()
-cursor.execute("DELETE FROM `price`")
+cursor.execute("DELETE FROM `price` WHERE `service_id` = '2'")
 connection.commit()
-cursor.execute("DELETE FROM `items`")
-connection.commit()
+# cursor.execute("DELETE FROM `items`")
+# connection.commit()
 cursor.close()
