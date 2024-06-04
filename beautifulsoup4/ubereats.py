@@ -9,11 +9,11 @@ import pymysql
 import pymysql.cursors
 
 #These are links to try and scan all going to the same McDonald's
-DoorDash = ("https://www.doordash.com/store/mcdonald's-southside-837652/?cursor=eyJzZWFyY2hfaXRlbV9jYXJvdXNlbF9jdXJzb3IiOnsicXVlcnkiOiJtYyBkb24iLCJpdGVtX2lkcyI6W10sInNlYXJjaF90ZXJtIjoibWMgZG9uIiwidmVydGljYWxfaWQiOi05OTksInZlcnRpY2FsX25hbWUiOiJhbGwifSwic3RvcmVfcHJpbWFyeV92ZXJ0aWNhbF9pZHMiOlsxLDE5Nl19&pickup=false")
-FrugalFoods=('https://frugal-foods.circuitbreakers.tech/restaurant/7')
-GrubHub=('https://www.grubhub.com/restaurant/mcdonalds-267-broadway-brooklyn/1339391')
-UberEats=("https://www.ubereats.com/store/mcdonalds-brooklyn-flatbush-ave/mAWk-EcAQ3GYjO2AIcKMrw?diningMode=DELIVERY")
-Postmates=("https://postmates.com/store/mcdonalds-brooklyn-flatbush-ave/mAWk-EcAQ3GYjO2AIcKMrw?diningMode=DELIVERY")
+DoorDash = "https://www.doordash.com/store/mcdonald's-southside-837652/?cursor=eyJzZWFyY2hfaXRlbV9jYXJvdXNlbF9jdXJzb3IiOnsicXVlcnkiOiJtYyBkb24iLCJpdGVtX2lkcyI6W10sInNlYXJjaF90ZXJtIjoibWMgZG9uIiwidmVydGljYWxfaWQiOi05OTksInZlcnRpY2FsX25hbWUiOiJhbGwifSwic3RvcmVfcHJpbWFyeV92ZXJ0aWNhbF9pZHMiOlsxLDE5Nl19&pickup=false"
+FrugalFoods='https://frugal-foods.circuitbreakers.tech/restaurant/7'
+GrubHub='https://www.grubhub.com/restaurant/mcdonalds-267-broadway-brooklyn/1339391'
+UberEats="https://www.ubereats.com/store/mcdonalds-brooklyn-flatbush-ave/mAWk-EcAQ3GYjO2AIcKMrw?diningMode=DELIVERY"
+Postmates="https://postmates.com/store/mcdonalds-brooklyn-flatbush-ave/mAWk-EcAQ3GYjO2AIcKMrw?diningMode=DELIVERY"
 # result = requests.get(url).text
 
 # Dont delete commented code here since this was done to try and fool the anti-bot at grubhub.
@@ -35,7 +35,7 @@ driver.get(UberEats)
 # x and l are variables used in order to control the while loop statement thats used below, for example l its used as the limit of iterations
 # while x counts the amounts of iterations.(Right now its on 50 for testing purposes. Recommend to put it on 600 for an actual scan).
 x = 0
-l = 580
+l = 500
 
 # The variable divs its being used to store all the data that is gathered by beautifulsoup4 in order to use later in an for loop.
 divs = []
@@ -108,13 +108,16 @@ for items in divs:
             item_price = [item.replace('$', '') for item in item_price]
             item_price = item_price[0]
             cursor = connection.cursor()
-            try:
-                cursor.execute(f"SELECT `item_id` FROM `items` WHERE `item_name` = '{item_name}'")
-                item_id = cursor.fetchone()
-                item_id = item_id['item_id']
-            except:
-                missing_items+=1
+            # try:
+            cursor.execute(f"SELECT `item_id` FROM `items` WHERE `item_name` = '{item_name}'")
+            item_id = cursor.fetchone()
+            if not item_id:
+                print(item_name)
                 continue
+            item_id = item_id['item_id']
+            # except:
+                # missing_items+=1
+                # continue
                 # notFound.append(item_name)
             cursor.execute(f"INSERT INTO `price` (`price_value`, `item_id`, `service_id`) VALUES ('{item_price}', '{item_id}', '2')")
             connection.commit()
@@ -147,10 +150,10 @@ for items in divs:
 print()
 if failed_attempts > 0:
     print(f'There was a total of {failed_attempts} failed attempts for submitted items.')
-print()
 if missing_items > 0:
     print(f'There was a total of {missing_items} not found items on DB.')
+if subItems > 0:
     print()
-print(f'Total of {subItems} items has been submitted to the Database. Please check if data is correct on: https://{db_link}')
+    print(f'Total of {subItems} items has been submitted to the Database. Please check if data is correct on: https://{db_link}')
 
 driver.quit()
