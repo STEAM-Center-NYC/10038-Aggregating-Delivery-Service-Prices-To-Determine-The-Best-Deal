@@ -33,7 +33,10 @@
             {% endfor %}
         </div>
         <hr>
-        <p>Total:</p>
+        <span>Total:</span>
+        {% for prices in total_results %}
+            <span>x</span>
+        {% endfor %}
     </div>
 </main>
 

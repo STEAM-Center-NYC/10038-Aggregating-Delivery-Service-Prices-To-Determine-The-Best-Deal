@@ -132,6 +132,22 @@ def cart_delete(delete_item):
     get_db().commit()
     return redirect('/cart')
 
+@app.route('/total', methods=['GET','POST'])
+def total():
+    new_user = flask_login.current_user.id
+    cursor = get_db().cursor()
+    cursor.execute(f"""
+                    SELECT SUM(`price_value`), `service_name`
+                    FROM `cart`
+                    INNER JOIN `items` ON `cart`.item_id = `items`.item_id
+                    INNER JOIN `price` ON `cart`.item_id = `price`.item_id
+                    INNER JOIN `delivery_services` ON `price`.service_id = `delivery_services`.service_id
+                    WHERE `user_id` = 42
+                    GROUP BY `service_name`;
+    """)
+    total_results = cursor.fetchall()
+    cursor.close()
+    return redirect('/cart', total = total_results)
 
 @app.route('/restaurant/<restaurant_id>', methods=['GET', 'POST'])
 def restaurant(restaurant_id):
