@@ -12,7 +12,9 @@ import pymysql.cursors
 DoorDash = "https://www.doordash.com/store/mcdonald's-southside-837652/?cursor=eyJzZWFyY2hfaXRlbV9jYXJvdXNlbF9jdXJzb3IiOnsicXVlcnkiOiJtYyBkb24iLCJpdGVtX2lkcyI6W10sInNlYXJjaF90ZXJtIjoibWMgZG9uIiwidmVydGljYWxfaWQiOi05OTksInZlcnRpY2FsX25hbWUiOiJhbGwifSwic3RvcmVfcHJpbWFyeV92ZXJ0aWNhbF9pZHMiOlsxLDE5Nl19&pickup=false"
 FrugalFoods='https://frugal-foods.circuitbreakers.tech/restaurant/7'
 GrubHub='https://www.grubhub.com/restaurant/mcdonalds-267-broadway-brooklyn/1339391'
-UberEats="https://www.ubereats.com/store/mcdonalds-brooklyn-flatbush-ave/mAWk-EcAQ3GYjO2AIcKMrw?diningMode=DELIVERY"
+UberEats="https://www.ubereats.com/store/mcdonalds-brooklyn-flatbush-ave/mAWk-EcAQ3GYjO2AIcKMrw/e8bed2da-bd96-50f1-8b3a-2ab2167d46d7?diningMode=DELIVERY&ps=1"
+UberEats2 = "https://www.ubereats.com/store/mcdonalds-brooklyn-flatbush-ave/mAWk-EcAQ3GYjO2AIcKMrw/c21cd42b-7f1e-5201-af9c-ce9eac19f919?diningMode=DELIVERY&ps=1"
+UberEats3 = "https://www.ubereats.com/store/mcdonalds-brooklyn-flatbush-ave/mAWk-EcAQ3GYjO2AIcKMrw/fd23bf60-99af-5aa0-bd62-04126eb10e5c?diningMode=DELIVERY&ps=1"
 Postmates="https://postmates.com/store/mcdonalds-brooklyn-flatbush-ave/mAWk-EcAQ3GYjO2AIcKMrw?diningMode=DELIVERY"
 # result = requests.get(url).text
 
@@ -30,7 +32,7 @@ Postmates="https://postmates.com/store/mcdonalds-brooklyn-flatbush-ave/mAWk-EcAQ
 # This code is to tell the webdriver from selenium what browser to use. For example its using Chrome.
 driver = webdriver.Chrome()
 # driver.get is to tell the webdriver to what website to search and scan.
-driver.get(UberEats)
+driver.get(UberEats2)
 
 # x and l are variables used in order to control the while loop statement thats used below, for example l its used as the limit of iterations
 # while x counts the amounts of iterations.(Right now its on 50 for testing purposes. Recommend to put it on 600 for an actual scan).
@@ -91,6 +93,7 @@ subItems = 0
 failed_attempts = 0
 notFound = []
 missing_items = 0
+dup_items = 0
 
 for items in divs:
 #     # the next for segments are using the .find from beautifulsoup as explained before to try and filter out the items by using a attribute unique for them.
@@ -112,9 +115,17 @@ for items in divs:
             cursor.execute(f"SELECT `item_id` FROM `items` WHERE `item_name` = '{item_name}'")
             item_id = cursor.fetchone()
             if not item_id:
-                print(item_name)
+                missing_items+=1
                 continue
             item_id = item_id['item_id']
+            cursor.execute(f"SELECT `item_id` FROM `price` WHERE `item_id` = '{item_id}' AND `service_id` = '2'")
+            dup = cursor.fetchone()
+            if not dup:
+                pass
+            else:
+                print(dup)
+                dup_items+=1
+                continue
             # except:
                 # missing_items+=1
                 # continue
@@ -148,8 +159,12 @@ for items in divs:
         #     pass
 
 print()
+if subItems <= 0:
+    print(f'Scan failed with {subItems} submitted items and a total of {dup_items} duplicated items.')
 if failed_attempts > 0:
     print(f'There was a total of {failed_attempts} failed attempts for submitted items.')
+if dup_items > 0:
+    print(f'There was a total of {dup_items} duplicated items that were not submitted.')
 if missing_items > 0:
     print(f'There was a total of {missing_items} not found items on DB.')
 if subItems > 0:

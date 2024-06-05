@@ -12,8 +12,10 @@ import pymysql.cursors
 DoorDash = "https://www.doordash.com/store/mcdonald's-southside-837652/?cursor=eyJzZWFyY2hfaXRlbV9jYXJvdXNlbF9jdXJzb3IiOnsicXVlcnkiOiJtYyBkb24iLCJpdGVtX2lkcyI6W10sInNlYXJjaF90ZXJtIjoibWMgZG9uIiwidmVydGljYWxfaWQiOi05OTksInZlcnRpY2FsX25hbWUiOiJhbGwifSwic3RvcmVfcHJpbWFyeV92ZXJ0aWNhbF9pZHMiOlsxLDE5Nl19&pickup=false"
 FrugalFoods='https://frugal-foods.circuitbreakers.tech/restaurant/7'
 GrubHub='https://www.grubhub.com/restaurant/mcdonalds-267-broadway-brooklyn/1339391'
-UberEats="https://www.ubereats.com/store/mcdonalds-brooklyn-flatbush-ave/mAWk-EcAQ3GYjO2AIcKMrw?diningMode=DELIVERY"
-Postmates="https://postmates.com/store/mcdonalds-brooklyn-flatbush-ave/mAWk-EcAQ3GYjO2AIcKMrw?diningMode=DELIVERY"
+UberEats="https://www.ubereats.com/store/mcdonalds-brooklyn-flatbush-ave/mAWk-EcAQ3GYjO2AIcKMrw/e8bed2da-bd96-50f1-8b3a-2ab2167d46d7?diningMode=DELIVERY&ps=1"
+UberEats2 = "https://www.ubereats.com/store/mcdonalds-brooklyn-flatbush-ave/mAWk-EcAQ3GYjO2AIcKMrw/c21cd42b-7f1e-5201-af9c-ce9eac19f919?diningMode=DELIVERY&ps=1"
+UberEats3 = "https://www.ubereats.com/store/mcdonalds-brooklyn-flatbush-ave/mAWk-EcAQ3GYjO2AIcKMrw/fd23bf60-99af-5aa0-bd62-04126eb10e5c?diningMode=DELIVERY&ps=1"
+Postmates="https://postmates.com/store/mcdonalds-brooklyn-flatbush-ave/mAWk-EcAQ3GYjO2AIcKMrw/e8bed2da-bd96-50f1-8b3a-2ab2167d46d7?diningMode=DELIVERY&ps=1"
 # result = requests.get(url).text
 
 # Dont delete commented code here since this was done to try and fool the anti-bot at grubhub.
@@ -35,7 +37,7 @@ driver.get(Postmates)
 # x and l are variables used in order to control the while loop statement thats used below, for example l its used as the limit of iterations
 # while x counts the amounts of iterations.(Right now its on 50 for testing purposes. Recommend to put it on 600 for an actual scan).
 x = 0
-l = 50
+l = 500
 
 # The variable divs its being used to store all the data that is gathered by beautifulsoup4 in order to use later in an for loop.
 divs = []
@@ -50,15 +52,14 @@ while True:
     # In the results variable is set to save the page.findAll expression which what it does is that it searches the page variable based on
     # the requirements that you give it, for example here the requirements is that the tag must be a div and the data anchor id to be
     # MenuItem. findAll what it does is that it searches the entire document while find only searches for the first one.
-    results = page.findAll(class_="kg qc qd zi ak q6 l9 bw")
+    results = page.findAll()
     # .extend saves all input to the divs variable from before the while loop.
     divs.extend(results)
     print(f'{x} of {l} done.')
 
     # this segment of code here is to print the content in a html file for testing purposes.
     with open('pm.html', 'w', encoding='utf-8') as f:
-        f.write(str(results))
-    print(results)
+        f.write(str(page.contents))
     # n = random.randint(0,50)
     # if n == 5:
     #     print('Time to sleep')
@@ -92,6 +93,7 @@ while True:
 # failed_attempts = 0
 # notFound = []
 # missing_items = 0
+# dup_items = 0
 
 # for items in divs:
 # #     # the next for segments are using the .find from beautifulsoup as explained before to try and filter out the items by using a attribute unique for them.
@@ -109,13 +111,24 @@ while True:
 #             item_price = [item.replace('$', '') for item in item_price]
 #             item_price = item_price[0]
 #             cursor = connection.cursor()
-#             try:
-#                 cursor.execute(f"SELECT `item_id` FROM `items` WHERE `item_name` = '{item_name}'")
-#                 item_id = cursor.fetchone()
-#                 item_id = item_id['item_id']
-#             except:
+#             # try:
+#             cursor.execute(f"SELECT `item_id` FROM `items` WHERE `item_name` = '{item_name}'")
+#             item_id = cursor.fetchone()
+#             if not item_id:
 #                 missing_items+=1
 #                 continue
+#             item_id = item_id['item_id']
+#             cursor.execute(f"SELECT `item_id` FROM `price` WHERE `item_id` = '{item_id}' AND `service_id` = '2'")
+#             dup = cursor.fetchone()
+#             if not dup:
+#                 pass
+#             else:
+#                 print(dup)
+#                 dup_items+=1
+#                 continue
+#             # except:
+#                 # missing_items+=1
+#                 # continue
 #                 # notFound.append(item_name)
 #             cursor.execute(f"INSERT INTO `price` (`price_value`, `item_id`, `service_id`) VALUES ('{item_price}', '{item_id}', '2')")
 #             connection.commit()
@@ -141,17 +154,21 @@ while True:
 #             # cursor.close()
 #             # connection.commit()
 #             subItems+=1
-#         # except:
-#         #     failed_attempts+=1
-#         #     pass
+        # except:
+        #     failed_attempts+=1
+        #     pass
 
-# print()
+print()
+# if subItems <= 0:
+#     print(f'Scan failed with {subItems} submitted items and a total of {dup_items} duplicated items.')
 # if failed_attempts > 0:
 #     print(f'There was a total of {failed_attempts} failed attempts for submitted items.')
-# print()
+# if dup_items > 0:
+#     print(f'There was a total of {dup_items} duplicated items that were not submitted.')
 # if missing_items > 0:
 #     print(f'There was a total of {missing_items} not found items on DB.')
+# if subItems > 0:
 #     print()
-# print(f'Total of {subItems} items has been submitted to the Database. Please check if data is correct on: https://{db_link}')
+#     print(f'Total of {subItems} items has been submitted to the Database. Please check if data is correct on: https://{db_link}')
 
-# driver.quit()
+driver.quit()
