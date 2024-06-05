@@ -9,7 +9,7 @@ import pymysql
 import pymysql.cursors
 
 #These are links to try and scan all going to the same McDonald's
-DoorDash ="https://www.doordash.com/store/mcdonald's-fort-greene-837684/1198049/?event_type=autocomplete&pickup=false"
+DoorDash ="https://www.doordash.com/store/two-hands-williamsburg-858356/?cursor=eyJzdG9yZV9wcmltYXJ5X3ZlcnRpY2FsX2lkcyI6WzEsMTQ0LDE3NSwxOTZdfQ==&pickup=false"
 DoorDash2 ="https://www.doordash.com/store/mcdonald's-fort-greene-837684/1198065/?event_type=autocomplete&pickup=false"
 DoorDash3 ="https://www.doordash.com/store/mcdonald's-fort-greene-837684/1198057/?event_type=autocomplete&pickup=false"
 FrugalFoods='https://frugal-foods.circuitbreakers.tech/restaurant/7'
@@ -32,7 +32,7 @@ Postmates="https://postmates.com/store/mcdonalds-brooklyn-flatbush-ave/mAWk-EcAQ
 # This code is to tell the webdriver from selenium what browser to use. For example its using Chrome.
 driver = webdriver.Chrome()
 # driver.get is to tell the webdriver to what website to search and scan.
-driver.get(DoorDash3)
+driver.get(DoorDash)
 
 # x and l are variables used in order to control the while loop statement thats used below, for example l its used as the limit of iterations
 # while x counts the amounts of iterations.(Right now its on 50 for testing purposes. Recommend to put it on 600 for an actual scan).
@@ -77,7 +77,7 @@ while True:
         break
 
 # db_link is just for the connection and a print statement so please just change it here.
-db_link = '127.0.0.1'
+db_link = '10.100.33.60'
 
 connection = pymysql.connect(
     database = 'frugal_foods',
@@ -138,7 +138,7 @@ for items in divs:
 
             cursor = connection.cursor()
             # this code is to make the bot automatically upload the data into the database. For now its manual input on restaurant and category but hopefully we could get the category automated.
-            cursor.execute(f'INSERT INTO `items` (`item_name`, `picture`, `restaurant_id`, `item_description`, `category_id`) VALUES ("{item_name}", "{item_picture}", "1", "{item_des}", "1");')
+            cursor.execute(f'INSERT INTO `items` (`item_name`, `picture`, `restaurant_id`, `item_description`, `catagory_id`) VALUES ("{item_name}", "{item_picture}", "10", "{item_des}", "16");')
             connection.commit()
             # this execute is to be able to get the id of the item uploaded to be able to assign the id on the price.
             cursor.execute(f"SELECT `item_id` FROM `items` ORDER BY `item_id` DESC;")
@@ -146,7 +146,7 @@ for items in divs:
             id = cursor.fetchone()
             result = id['item_id']
             # this execute uploads the price and also uses the id collected before in order to connect it with the item.
-            cursor.execute(f'INSERT INTO `price` (`price_value`, `item_id`, `service_id`) VALUES ("{item_price[0]}", "{result}","1")')
+            cursor.execute(f'INSERT INTO `price` (`price_value`, `item_id`, `service_id`) VALUES ("{item_price[0]}", "{result}","3")')
             cursor.close()
             connection.commit()
             subItems+=1
