@@ -12,7 +12,7 @@ import pymysql.cursors
 DoorDash = "https://www.doordash.com/store/mcdonald's-southside-837652/?cursor=eyJzZWFyY2hfaXRlbV9jYXJvdXNlbF9jdXJzb3IiOnsicXVlcnkiOiJtYyBkb24iLCJpdGVtX2lkcyI6W10sInNlYXJjaF90ZXJtIjoibWMgZG9uIiwidmVydGljYWxfaWQiOi05OTksInZlcnRpY2FsX25hbWUiOiJhbGwifSwic3RvcmVfcHJpbWFyeV92ZXJ0aWNhbF9pZHMiOlsxLDE5Nl19&pickup=false"
 FrugalFoods='https://frugal-foods.circuitbreakers.tech/restaurant/7'
 GrubHub='https://www.grubhub.com/restaurant/mcdonalds-267-broadway-brooklyn/1339391'
-UberEats="https://www.ubereats.com/store/mcdonalds-brooklyn-flatbush-ave/mAWk-EcAQ3GYjO2AIcKMrw/e8bed2da-bd96-50f1-8b3a-2ab2167d46d7?diningMode=DELIVERY&ps=1"
+UberEats = "https://www.ubereats.com/store/two-hands-williamsburg/nQGYFCLJR8OjZge6PpNCwQ?diningMode=DELIVERY&sc=SEARCH_SUGGESTION"
 UberEats2 = "https://www.ubereats.com/store/mcdonalds-brooklyn-flatbush-ave/mAWk-EcAQ3GYjO2AIcKMrw/c21cd42b-7f1e-5201-af9c-ce9eac19f919?diningMode=DELIVERY&ps=1"
 UberEats3 = "https://www.ubereats.com/store/mcdonalds-brooklyn-flatbush-ave/mAWk-EcAQ3GYjO2AIcKMrw/fd23bf60-99af-5aa0-bd62-04126eb10e5c?diningMode=DELIVERY&ps=1"
 Postmates="https://postmates.com/store/mcdonalds-brooklyn-flatbush-ave/mAWk-EcAQ3GYjO2AIcKMrw?diningMode=DELIVERY"
@@ -32,7 +32,7 @@ Postmates="https://postmates.com/store/mcdonalds-brooklyn-flatbush-ave/mAWk-EcAQ
 # This code is to tell the webdriver from selenium what browser to use. For example its using Chrome.
 driver = webdriver.Chrome()
 # driver.get is to tell the webdriver to what website to search and scan.
-driver.get(UberEats2)
+driver.get(UberEats)
 
 # x and l are variables used in order to control the while loop statement thats used below, for example l its used as the limit of iterations
 # while x counts the amounts of iterations.(Right now its on 50 for testing purposes. Recommend to put it on 600 for an actual scan).
@@ -77,7 +77,7 @@ while True:
         break
 
 # db_link is just for the connection and a print statement so please just change it here.
-db_link = '127.0.0.1'
+db_link = '10.100.33.60'
 
 connection = pymysql.connect(
     database = 'frugal_foods',
@@ -111,24 +111,24 @@ for items in divs:
             item_price = [item.replace('$', '') for item in item_price]
             item_price = item_price[0]
             cursor = connection.cursor()
-            # try:
-            cursor.execute(f"SELECT `item_id` FROM `items` WHERE `item_name` = '{item_name}'")
-            item_id = cursor.fetchone()
-            if not item_id:
+            try:
+                cursor.execute(f"SELECT `item_id` FROM `items` WHERE `item_name` = '{item_name}'")
+                item_id = cursor.fetchone()
+                if not item_id:
+                    missing_items+=1
+                    continue
+                item_id = item_id['item_id']
+                cursor.execute(f"SELECT `item_id` FROM `price` WHERE `item_id` = '{item_id}' AND `service_id` = '2'")
+                dup = cursor.fetchone()
+                if not dup:
+                    pass
+                else:
+                    print(dup)
+                    dup_items+=1
+                    continue
+            except:
                 missing_items+=1
                 continue
-            item_id = item_id['item_id']
-            cursor.execute(f"SELECT `item_id` FROM `price` WHERE `item_id` = '{item_id}' AND `service_id` = '2'")
-            dup = cursor.fetchone()
-            if not dup:
-                pass
-            else:
-                print(dup)
-                dup_items+=1
-                continue
-            # except:
-                # missing_items+=1
-                # continue
                 # notFound.append(item_name)
             cursor.execute(f"INSERT INTO `price` (`price_value`, `item_id`, `service_id`) VALUES ('{item_price}', '{item_id}', '2')")
             connection.commit()
