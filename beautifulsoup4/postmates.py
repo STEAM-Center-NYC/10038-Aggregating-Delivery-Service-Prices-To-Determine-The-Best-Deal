@@ -126,7 +126,7 @@ for items in divs:
             if not dup:
                 pass
             else:
-                print(dup)
+                # print(dup)
                 dup_items+=1
                 continue
             # except:
