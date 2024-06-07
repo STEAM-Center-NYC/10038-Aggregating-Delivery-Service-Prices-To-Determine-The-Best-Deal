@@ -102,12 +102,12 @@ for items in divs:
     # .contents is used to only gather the actual text and not the code with text.
     # item_id = items.find(attrs={'data-item-id' : True})
     # print(item_id)
-    category_name = items.find('h2', class_='chXaaR')
-    if not category_name:
+    catagory_name = items.find('h2', class_='chXaaR')
+    if not catagory_name:
         continue
-    category_name = category_name.contents
-    category_name = category_name[0]
-    if category_name == 'Most Ordered' or category_name == 'Most Popular':
+    catagory_name = catagory_name.contents
+    catagory_name = catagory_name[0]
+    if catagory_name == 'Most Ordered' or catagory_name == 'Most Popular':
         continue
     item_name = items.find('h3', {'data-telemetry-id' : "storeMenuItem.title"})
     if not item_name:
@@ -155,17 +155,17 @@ for items in divs:
                  item_des = item_des[0]
 
             cursor = connection.cursor()
-            cursor.execute(f"SELECT `category_id` FROM `menu_categories` WHERE `category_name` = '{category_name}'")
-            category = cursor.fetchone()
-            if not category:
-                cursor.execute(f"INSERT INTO `menu_categories` (`category_name`, `restaurant_id`) VALUES ('{category_name}', '{restaurant_id}')")
-                cursor.execute(f"SELECT `category_id` FROM `menu_categories` WHERE `category_name` = '{category_name}'")
-                category = cursor.fetchone()
-                db_category = category['category_id']
+            cursor.execute(f"SELECT `catagory_id` FROM `menu_categories` WHERE `catagory_name` = '{catagory_name}'")
+            catagory = cursor.fetchone()
+            if not catagory:
+                cursor.execute(f"INSERT INTO `menu_categories` (`catagory_name`, `restaurant_id`) VALUES ('{catagory_name}', '{restaurant_id}')")
+                cursor.execute(f"SELECT `catagory_id` FROM `menu_categories` WHERE `catagory_name` = '{catagory_name}'")
+                catagory = cursor.fetchone()
+                db_catagory = catagory['catagory_id']
             else:
-                db_category = category['category_id']
+                db_catagory = catagory['catagory_id']
             # this code is to make the bot automatically upload the data into the database. For now its manual input on restaurant and category but hopefully we could get the category automated.
-            cursor.execute(f'INSERT INTO `items` (`item_name`, `picture`, `restaurant_id`, `item_description`, `category_id`) VALUES ("{item_name}", "{item_picture}", "{restaurant_id}", "{item_des}", "{db_category}");')
+            cursor.execute(f'INSERT INTO `items` (`item_name`, `picture`, `restaurant_id`, `item_description`, `catagory_id`) VALUES ("{item_name}", "{item_picture}", "{restaurant_id}", "{item_des}", "{db_catagory}");')
             connection.commit()
             # this execute is to be able to get the id of the item uploaded to be able to assign the id on the price.
             cursor.execute(f"SELECT `item_id` FROM `items` ORDER BY `item_id` DESC;")

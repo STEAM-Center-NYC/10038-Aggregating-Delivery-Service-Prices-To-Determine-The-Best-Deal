@@ -1,7 +1,7 @@
 import pymysql
 import pymysql.cursors
 
-db_link = '127.0.0.1'
+db_link = '10.100.33.60'
 
 connection = pymysql.connect(
     database = 'frugal_foods',
