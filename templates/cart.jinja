@@ -3,52 +3,40 @@
 
 <main class="container">
     <br>
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-primary alert-style" role="alert">
+                {{message}}
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
     <div id='cart_box'>
         <h1>Your Cart</h1>
         <hr>
         <div id="cartbox_item">
-            <div class="d-inline-flex item_card">
-                <input type="checkbox" checked>
-                <div class="cart_item">
-                    <span class="item_title">TBLT</span>
-                    <span class="item_price">$9.49</span>
-                    <br>
-                    <span class="item_des">Turkey bacon, lettuce and tomato.</span>
+            {% for name, prices in cart | groupby('item_name') %}
+                <div class="item_card">
+                    <div class="cart_item">
+                        <span class="item_title">{{name}}:</span>
+                        {% for price in prices %}
+                            <span class="item_price">{{price.service_name}}: ${{'%0.2f'| format(price.price_value|float)}}</span>
+                        {% endfor %}
+                        <br>
+                        <span class="item_des">{{prices[0].item_description}}</span>              
+                    </div>
+                    <form method="POST" action="/deletefromcart/{{prices[0]['cart_id']}}">
+                        <input class="button-style" type="submit" value="Remove From Cart">
+                    </form>
                 </div>
-            </div>
-            <br><br>
-            <div class="d-inline-flex item_card">
-                <input type="checkbox" checked>
-                <div class="cart_item">
-                    <span class="item_title">Hungry Man</span>
-                    <span class="item_price">$12.99</span>
-                    <br>
-                    <span class="item_des">3 eggs, bacon, sausage, ham and American cheese. </span>
-                </div>
-            </div>
-            <br><br>
-            <div class="d-inline-flex item_card">
-                <input type="checkbox" checked>
-                <div class="cart_item">
-                    <span class="item_title">Bacontater</span>
-                    <span class="item_price">$10.5</span>
-                    <br>
-                    <span class="item_des">Bacon, egg and cheese with a hash brown.</span>
-                </div>
-            </div>
-            <br><br>
-            <div class="d-inline-flex item_card">
-                <input type="checkbox" checked>
-                <div class="cart_item">
-                    <span class="item_title">Egg Sandwich</span>
-                    <span class="item_price">$5.25</span>
-                    <br>
-                    <span class="item_des">Add-ons for an additional charge.</span>
-                </div>
-            </div>
+            {% endfor %}
         </div>
         <hr>
-        Total: $99.98 <button class="button">Proceed to checkout</button>
+        <span>Total:</span>
+        {% for prices in total_results %}
+            <span>x</span>
+        {% endfor %}
     </div>
 </main>
 
